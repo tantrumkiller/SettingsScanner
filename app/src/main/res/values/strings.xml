@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Settings Watcher</string>
+    <string name="settings">Settings</string>
+
+    <string name="gps_switch_button">GPS</string>
+    <string name="mobile_data_switch_button">Mobile Data</string>
+
+    <string name="settings_info">Toggle to enable/disable periodic checks</string>
+
+    <!-- Reminder Notification -->
+    <string name="reminder_notification_title">SettingsWatcher Action Required</string>
+    <string name="reminder_notification_text">You have some undesired settings enabled for long</string>
+
+</resources>
