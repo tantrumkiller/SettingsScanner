@@ -10,30 +10,31 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class ActionRequiredRecyclerAdapter extends RecyclerView.Adapter<ActionRequiredRecyclerAdapter.ViewHolder> {
 
-    private List<String> mData;
-    private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
+    private final List<String> mData;
+    private final LayoutInflater mInflater;
+    private final ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    MyAdapter(Context context, List<String> data) {
+    ActionRequiredRecyclerAdapter(final Context context,final  List<String> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
+        this.mClickListener = null;
     }
 
     // inflates the row layout from xml when needed
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.my_text_view, parent, false);
+    public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
+        final View view = mInflater.inflate(R.layout.action, parent, false);
         return new ViewHolder(view);
     }
 
     // binds the data to the TextView in each row
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        String animal = mData.get(position);
-        holder.myTextView.setText(animal);
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        final String action = mData.get(position);
+        holder.myTextView.setText(action);
     }
 
     // total number of rows
@@ -48,12 +49,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.my_text_view);
+            myTextView = itemView.findViewById(R.id.action);
             itemView.setOnClickListener(this);
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(final View view) {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
             Log.i("Recycle", "Clicked");
         }
