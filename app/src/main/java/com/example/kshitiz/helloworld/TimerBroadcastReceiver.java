@@ -9,7 +9,7 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        final Intent i = new Intent(context, PeriodicTaskExecutor.class);
+        final Intent i = new Intent(context, PeriodicTaskExecutorService.class);
         context.startService(i);
     }
 }

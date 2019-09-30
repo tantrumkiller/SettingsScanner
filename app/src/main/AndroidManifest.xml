@@ -20,12 +20,19 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".UserPreferencesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+                <category android:name="android.intent.category.PREFERENCE" />
+            </intent-filter>
+        </activity>
+
         <receiver
             android:name=".TimerBroadcastReceiver"
             android:process=":remote" />
 
         <service
-            android:name=".PeriodicTaskExecutor"
+            android:name=".PeriodicTaskExecutorService"
             android:exported="false" />
 
     </application>

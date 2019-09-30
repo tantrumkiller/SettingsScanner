@@ -1,8 +1,6 @@
 package com.example.kshitiz.helloworld;
 
-import android.app.AlarmManager;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,9 +8,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import com.example.kshitiz.helloworld.alarm.AlarmScheduler;
 import com.example.kshitiz.helloworld.setting.Setting;
 import com.example.kshitiz.helloworld.setting.SettingsConfig;
 import com.example.kshitiz.helloworld.userpreference.UserPreferencesStore;
@@ -21,30 +22,45 @@ import com.example.kshitiz.helloworld.notification.ReminderNotificationHandler;
 import java.util.Set;
 
 public class UserPreferencesActivity extends AppCompatActivity {
-    private static final long TWO_HRS = AlarmManager.INTERVAL_FIFTEEN_MINUTES / 15;
-
     private final UserPreferencesStore configurationStore;
     private final ReminderNotificationHandler reminderNotificationHandler;
     private final SettingsConfig settingConfiguration;
+    private final AlarmScheduler alarmScheduler;
 
     public UserPreferencesActivity(){
         super();
         this.configurationStore = new UserPreferencesStore();
         this.reminderNotificationHandler = new ReminderNotificationHandler();
         this.settingConfiguration = new SettingsConfig();
+        this.alarmScheduler= new AlarmScheduler();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_display);
+        setContentView(R.layout.preferences);
 
-        populateUserPrefs();
-        scheduleAlarm();
+        setupToolbar();
+        populateUserPrefrences();
+        alarmScheduler.scheduleAlarm(getApplicationContext());
         setupNotificationChannel();
     }
 
-    private void populateUserPrefs() {
+    private void setupToolbar() {
+        Toolbar myToolbar = findViewById(R.id.toolbar_user_preferences);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        myToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),ActionsRequiredActivity.class));
+            }
+        });
+    }
+
+    private void populateUserPrefrences() {
         final Context context = getApplicationContext();
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -61,18 +77,6 @@ public class UserPreferencesActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    public void scheduleAlarm() {
-        final Intent intent = new Intent(getApplicationContext(), TimerBroadcastReceiver.class);
-        final PendingIntent pIntent = PendingIntent.getBroadcast(this, TimerBroadcastReceiver.REQUEST_CODE,
-                intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        // alarm is set right away
-        long firstMillis = System.currentTimeMillis();
-
-        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis, TWO_HRS, pIntent);
     }
 
     private void setupNotificationChannel() {

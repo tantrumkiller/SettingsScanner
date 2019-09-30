@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
+import com.example.kshitiz.helloworld.ActionsRequiredActivity;
 import com.example.kshitiz.helloworld.R;
 import com.example.kshitiz.helloworld.UserPreferencesActivity;
 
@@ -27,7 +28,7 @@ public class ReminderNotificationHandler {
     }
 
     public void notifyUser(final Context context, final NotificationManager notificationManager) {
-        final Intent notificationIntent = new Intent(context, UserPreferencesActivity.class);
+        final Intent notificationIntent = new Intent(context, ActionsRequiredActivity.class);
 
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);

@@ -10,14 +10,14 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class ActionRequiredRecyclerAdapter extends RecyclerView.Adapter<ActionRequiredRecyclerAdapter.ViewHolder> {
+public class ActionRequiredRecyclerViewAdapter extends RecyclerView.Adapter<ActionRequiredRecyclerViewAdapter.ViewHolder> {
 
     private final List<String> mData;
     private final LayoutInflater mInflater;
     private final ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    ActionRequiredRecyclerAdapter(final Context context,final  List<String> data) {
+    ActionRequiredRecyclerViewAdapter(final Context context, final  List<String> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.mClickListener = null;
