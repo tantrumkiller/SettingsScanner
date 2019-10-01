@@ -14,10 +14,10 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.example.kshitiz.helloworld.alarm.AlarmScheduler;
+import com.example.kshitiz.helloworld.notification.ReminderNotificationHandler;
 import com.example.kshitiz.helloworld.setting.Setting;
 import com.example.kshitiz.helloworld.setting.SettingsConfig;
 import com.example.kshitiz.helloworld.userpreference.UserPreferencesStore;
-import com.example.kshitiz.helloworld.notification.ReminderNotificationHandler;
 
 import java.util.Set;
 
@@ -27,12 +27,12 @@ public class UserPreferencesActivity extends AppCompatActivity {
     private final SettingsConfig settingConfiguration;
     private final AlarmScheduler alarmScheduler;
 
-    public UserPreferencesActivity(){
+    public UserPreferencesActivity() {
         super();
         this.configurationStore = new UserPreferencesStore();
         this.reminderNotificationHandler = new ReminderNotificationHandler();
         this.settingConfiguration = new SettingsConfig();
-        this.alarmScheduler= new AlarmScheduler();
+        this.alarmScheduler = new AlarmScheduler();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
         myToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ActionsRequiredActivity.class));
+                startActivity(new Intent(getApplicationContext(), ActionsRequiredActivity.class));
             }
         });
     }
@@ -66,9 +66,9 @@ public class UserPreferencesActivity extends AppCompatActivity {
 
         final Set<Setting> userConfiguration = configurationStore.getSettingsEnabledForWatch(sharedPreferences);
 
-        for(final Setting setting: Setting.values()){
+        for (final Setting setting : Setting.values()) {
             final Switch switchButton = findViewById(settingConfiguration.getPreferenceButtonId(setting));
-            if(userConfiguration.contains(setting)){
+            if (userConfiguration.contains(setting)) {
                 switchButton.setChecked(true);
             }
             switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -80,7 +80,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
     }
 
     private void setupNotificationChannel() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             reminderNotificationHandler.createNotificationChannel(getSystemService(NotificationManager.class));
         }
     }

@@ -1,6 +1,5 @@
 package com.example.kshitiz.helloworld;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,12 +31,12 @@ public class ActionsRequiredActivity extends AppCompatActivity {
     private final AlarmScheduler alarmScheduler;
     private final ReminderNotificationHandler reminderNotificationHandler;
 
-    public ActionsRequiredActivity(){
+    public ActionsRequiredActivity() {
         super();
         this.userPreferencesStore = new UserPreferencesStore();
         this.settingConfiguration = new SettingsConfig();
-        this.alarmScheduler= new AlarmScheduler();
-        this.reminderNotificationHandler= new ReminderNotificationHandler();
+        this.alarmScheduler = new AlarmScheduler();
+        this.reminderNotificationHandler = new ReminderNotificationHandler();
     }
 
     @Override
@@ -60,7 +59,7 @@ public class ActionsRequiredActivity extends AppCompatActivity {
         return true;
     }
 
-    private void populateList(){
+    private void populateList() {
         final RecyclerView recyclerView = findViewById(R.id.actions_required_recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -71,13 +70,13 @@ public class ActionsRequiredActivity extends AppCompatActivity {
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        final List<String> lists = new ArrayList<>();
+        final List<Setting> lists = new ArrayList<>();
         final Context context = getApplicationContext();
         final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         final Set<Setting> settings = userPreferencesStore.getSettingsEnabledForWatch(sharedPreferences);
-        for(final Setting setting: settings) {
-            if(settingConfiguration.getHandler(setting).isEnabled(context)) {
-                lists.add(setting.toString());
+        for (final Setting setting : settings) {
+            if (settingConfiguration.getHandler(setting).isEnabled(context)) {
+                lists.add(setting);
             }
         }
 

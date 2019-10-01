@@ -8,19 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.kshitiz.helloworld.setting.Setting;
+import com.example.kshitiz.helloworld.setting.SettingsConfig;
+
 import java.util.List;
 
 public class ActionRequiredRecyclerViewAdapter extends RecyclerView.Adapter<ActionRequiredRecyclerViewAdapter.ViewHolder> {
 
-    private final List<String> mData;
+    private final List<Setting> mData;
     private final LayoutInflater mInflater;
-    private final ItemClickListener mClickListener;
+    private final SettingsConfig  settingsConfig;
 
-    // data is passed into the constructor
-    ActionRequiredRecyclerViewAdapter(final Context context, final  List<String> data) {
+    ActionRequiredRecyclerViewAdapter(final Context context, final  List<Setting> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
-        this.mClickListener = null;
+        this.settingsConfig = new SettingsConfig();
     }
 
     // inflates the row layout from xml when needed
@@ -33,7 +35,7 @@ public class ActionRequiredRecyclerViewAdapter extends RecyclerView.Adapter<Acti
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final String action = mData.get(position);
+        final String action = mData.get(position).toString();
         holder.myTextView.setText(action);
     }
 
@@ -55,14 +57,14 @@ public class ActionRequiredRecyclerViewAdapter extends RecyclerView.Adapter<Acti
 
         @Override
         public void onClick(final View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
             Log.i("Recycle", "Clicked");
+            settingsConfig.getHandler(mData.get(getAdapterPosition())).openSettingsMenu(view.getContext());
         }
     }
 
     // convenience method for getting data at click position
     String getItem(int id) {
-        return mData.get(id);
+        return mData.get(id).toString();
     }
 
     // parent activity will implement this method to respond to click events

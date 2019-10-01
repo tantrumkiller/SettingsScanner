@@ -10,7 +10,6 @@ import android.support.v4.app.NotificationCompat;
 
 import com.example.kshitiz.helloworld.ActionsRequiredActivity;
 import com.example.kshitiz.helloworld.R;
-import com.example.kshitiz.helloworld.UserPreferencesActivity;
 
 public class ReminderNotificationHandler {
     public static final String NOTIFICATION_CHANNEL_ID = "SettingChecker-1";

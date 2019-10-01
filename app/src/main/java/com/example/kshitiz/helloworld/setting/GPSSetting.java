@@ -1,11 +1,20 @@
 package com.example.kshitiz.helloworld.setting;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.LocationManager;
+import android.provider.Settings;
 
 public class GPSSetting implements SettingHandler {
+    @Override
     public boolean isEnabled(final Context context){
         return isLocationEnabled((LocationManager) context.getSystemService(Context.LOCATION_SERVICE));
+    }
+
+    @Override
+    public void openSettingsMenu(final Context context){
+        final Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        context.startActivity(intent);
     }
 
     private boolean isLocationEnabled(LocationManager lm) {

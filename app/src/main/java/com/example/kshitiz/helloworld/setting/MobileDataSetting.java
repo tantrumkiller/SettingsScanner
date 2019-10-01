@@ -1,6 +1,8 @@
 package com.example.kshitiz.helloworld.setting;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.util.Log;
 
@@ -20,5 +22,11 @@ public class MobileDataSetting implements SettingHandler {
             Log.i("Check", "Exception during check for mobile data");
             return mobileDataEnabled;
         }
+    }
+
+    public void openSettingsMenu(Context context) {
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName("com.android.settings", "com.android.settings.Settings$DataUsageSummaryActivity"));
+        context.startActivity(intent);
     }
 }
