@@ -13,5 +13,6 @@
         android:textColor="@color/actionsRequired"
         android:textAlignment="viewStart"
         android:background="?android:attr/selectableItemBackground"
-        android:textSize="20sp"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="@dimen/text_size_large"/>
 </LinearLayout>

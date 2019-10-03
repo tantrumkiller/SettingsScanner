@@ -59,6 +59,12 @@ public class ActionsRequiredActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        populateList();
+    }
+
     private void populateList() {
         final RecyclerView recyclerView = findViewById(R.id.actions_required_recycler_view);
 

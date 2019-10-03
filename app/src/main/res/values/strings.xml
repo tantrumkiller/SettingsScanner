@@ -5,7 +5,7 @@
     <string name="gps_switch_button">GPS</string>
     <string name="mobile_data_switch_button">Mobile Data</string>
 
-    <string name="preferences_sub_heading">Toggle to enable/disable periodic checks</string>
+    <string name="preferences_sub_heading">Toggle to enable watch</string>
 
     <string name="actions_required_sub_heading">Click to go to the settings</string>
     <string name="actions_required_heading">Enabled Settings</string>

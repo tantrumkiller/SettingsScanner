@@ -38,13 +38,13 @@ public class PeriodicTaskExecutorService extends IntentService {
         for (final Setting setting : whitelistedSettings) {
             SettingHandler handler = settingsConfiguration.getHandler(setting);
             if (handler.isEnabled(context)) {
-                Log.i("PeriodicTaskExecutorService", String.format("%s setting is enabled, notifying user", setting));
+                Log.i("PeriodicTaskExecutor", String.format("%s setting is enabled, notifying user", setting));
                 reminderNotificationHandler.notifyUser(context, notificationManager);
                 return;
             }
         }
 
-        Log.i("PeriodicTaskExecutorService", "Required settings are now disabled, canceling older notification");
+        Log.i("PeriodicTaskExecutor", "Required settings are now disabled, canceling older notification");
         reminderNotificationHandler.cancelNotification(notificationManager);
     }
 }
