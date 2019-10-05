@@ -35,6 +35,11 @@ public class ActionRequiredRecyclerViewAdapter extends RecyclerView.Adapter<Acti
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        if (isDataEmpty()) {
+            holder.myTextView.setText(R.string.no_action_required_text);
+            return;
+        }
+
         final String action = mData.get(position).toString();
         holder.myTextView.setText(action);
     }
@@ -42,8 +47,13 @@ public class ActionRequiredRecyclerViewAdapter extends RecyclerView.Adapter<Acti
     // total number of rows
     @Override
     public int getItemCount() {
-        return mData.size();
+        return isDataEmpty() ? 1 : mData.size();
     }
+
+    private boolean isDataEmpty() {
+        return mData == null || mData.size() == 0;
+    }
+
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -58,17 +68,12 @@ public class ActionRequiredRecyclerViewAdapter extends RecyclerView.Adapter<Acti
         @Override
         public void onClick(final View view) {
             Log.i("Recycle", "Clicked");
+            if (isDataEmpty()){
+                Log.i("Recycle", "Empty");
+                return;
+            }
+
             settingsConfig.getHandler(mData.get(getAdapterPosition())).openSettingsMenu(view.getContext());
         }
-    }
-
-    // convenience method for getting data at click position
-    String getItem(int id) {
-        return mData.get(id).toString();
-    }
-
-    // parent activity will implement this method to respond to click events
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
     }
 }

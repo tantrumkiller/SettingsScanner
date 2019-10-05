@@ -14,6 +14,7 @@ public class GPSSetting implements SettingHandler {
     @Override
     public void openSettingsMenu(final Context context){
         final Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 

@@ -27,6 +27,7 @@ public class MobileDataSetting implements SettingHandler {
     public void openSettingsMenu(Context context) {
         Intent intent = new Intent();
         intent.setComponent(new ComponentName("com.android.settings", "com.android.settings.Settings$DataUsageSummaryActivity"));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 }

@@ -14,4 +14,5 @@
     <!-- Reminder Notification -->
     <string name="reminder_notification_title">SettingsWatcher Action Required</string>
     <string name="reminder_notification_text">You have some undesired settings enabled for long</string>
+    <string name="no_action_required_text">"Great! Settings are already disabled"</string>
 </resources>

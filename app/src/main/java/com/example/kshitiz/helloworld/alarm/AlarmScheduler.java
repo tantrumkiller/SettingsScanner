@@ -8,7 +8,7 @@ import android.content.Intent;
 import com.example.kshitiz.helloworld.TimerBroadcastReceiver;
 
 public class AlarmScheduler {
-    private static final long TWO_HRS = AlarmManager.INTERVAL_FIFTEEN_MINUTES / 15;
+    private static final long TWO_HRS = AlarmManager.INTERVAL_HOUR*2;
 
     public void scheduleAlarm(Context context) {
         final Intent intent = new Intent(context, TimerBroadcastReceiver.class);
