@@ -55,7 +55,8 @@ public class UserPreferencesActivity extends AppCompatActivity {
         myToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ActionsRequiredActivity.class));
+                Intent intent = new Intent(getApplicationContext(), ActionsRequiredActivity.class);
+                startActivity(intent);
             }
         });
     }

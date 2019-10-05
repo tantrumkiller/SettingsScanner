@@ -100,8 +100,8 @@ public class ActionsRequiredActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem arg0) {
                 if (arg0.getItemId() == R.id.goto_preferences_button) {
-                    Intent intentSP = new Intent(getApplicationContext(), UserPreferencesActivity.class);
-                    startActivity(intentSP);
+                    Intent intent = new Intent(getApplicationContext(), UserPreferencesActivity.class);
+                    startActivity(intent);
                 }
                 return false;
             }
