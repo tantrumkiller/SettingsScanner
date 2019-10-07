@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.kshitiz.helloworld">
+    package="com.fourthlap.a.settingspatroller">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -14,14 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ActionsRequiredActivity" android:launchMode="singleInstance">
+        <activity android:name="com.fourthlap.a.settingspatroller.ActionsRequiredActivity" android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".UserPreferencesActivity" android:launchMode="singleInstance">
+        <activity android:name="com.fourthlap.a.settingspatroller.UserPreferencesActivity" android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
                 <category android:name="android.intent.category.PREFERENCE" />
@@ -29,13 +30,23 @@
         </activity>
 
         <receiver
-            android:name=".TimerBroadcastReceiver"
+            android:name="com.fourthlap.a.settingspatroller.TimerBroadcastReceiver"
             android:process=":remote" />
 
+        <receiver android:name=".DeviceBootBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
+
         <service
-            android:name=".PeriodicTaskExecutorService"
+            android:name="com.fourthlap.a.settingspatroller.PeriodicTaskExecutorService"
             android:exported="false" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
     </application>
+
 
 </manifest>

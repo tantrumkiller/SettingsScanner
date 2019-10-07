@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Settings Watcher</string>
+    <string name="app_name">Settings Patroller</string>
     <string name="preferences_heading">Preferences</string>
 
     <string name="gps_switch_button">GPS</string>
@@ -12,7 +12,7 @@
     <string name="goto_user_preferences">Preferences</string>
 
     <!-- Reminder Notification -->
-    <string name="reminder_notification_title">SettingsWatcher Action Required</string>
-    <string name="reminder_notification_text">You have some undesired settings enabled for long</string>
+    <string name="reminder_notification_title">Patrol Complete</string>
+    <string name="reminder_notification_text">Some undesired settings are enabled</string>
     <string name="no_action_required_text">"Great! Settings are already disabled"</string>
 </resources>
