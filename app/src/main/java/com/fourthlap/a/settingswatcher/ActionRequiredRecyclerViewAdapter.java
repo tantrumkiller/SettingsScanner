@@ -1,4 +1,4 @@
-package com.fourthlap.a.settingspatroller;
+package com.fourthlap.a.settingswatcher;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.fourthlap.a.settingspatroller.setting.Setting;
-import com.fourthlap.a.settingspatroller.setting.SettingsConfig;
+import com.fourthlap.a.settingswatcher.setting.Setting;
+import com.fourthlap.a.settingswatcher.setting.SettingsConfig;
 
 import java.util.List;
 

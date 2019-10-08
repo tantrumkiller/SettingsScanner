@@ -1,4 +1,4 @@
-package com.fourthlap.a.settingspatroller;
+package com.fourthlap.a.settingswatcher;
 
 import android.app.NotificationManager;
 import android.content.Context;
@@ -19,11 +19,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 
-import com.fourthlap.a.settingspatroller.alarm.AlarmScheduler;
-import com.fourthlap.a.settingspatroller.notification.ReminderNotificationHandler;
-import com.fourthlap.a.settingspatroller.setting.Setting;
-import com.fourthlap.a.settingspatroller.setting.SettingsConfig;
-import com.fourthlap.a.settingspatroller.userpreference.UserPreferencesStore;
+import com.fourthlap.a.settingswatcher.alarm.AlarmScheduler;
+import com.fourthlap.a.settingswatcher.notification.ReminderNotificationHandler;
+import com.fourthlap.a.settingswatcher.setting.Setting;
+import com.fourthlap.a.settingswatcher.setting.SettingsConfig;
+import com.fourthlap.a.settingswatcher.userpreference.UserPreferencesStore;
 
 import java.util.ArrayList;
 import java.util.List;

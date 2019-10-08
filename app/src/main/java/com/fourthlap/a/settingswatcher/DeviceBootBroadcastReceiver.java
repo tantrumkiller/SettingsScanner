@@ -1,10 +1,10 @@
-package com.fourthlap.a.settingspatroller;
+package com.fourthlap.a.settingswatcher;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.fourthlap.a.settingspatroller.alarm.AlarmScheduler;
+import com.fourthlap.a.settingswatcher.alarm.AlarmScheduler;
 
 public class DeviceBootBroadcastReceiver extends BroadcastReceiver {
 

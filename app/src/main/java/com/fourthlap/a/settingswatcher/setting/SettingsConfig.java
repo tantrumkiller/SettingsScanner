@@ -1,6 +1,6 @@
-package com.fourthlap.a.settingspatroller.setting;
+package com.fourthlap.a.settingswatcher.setting;
 
-import com.fourthlap.a.settingspatroller.R;
+import com.fourthlap.a.settingswatcher.R;
 
 import java.util.HashMap;
 import java.util.Map;

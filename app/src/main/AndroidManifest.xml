@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fourthlap.a.settingspatroller">
+    package="com.fourthlap.a.settingswatcher">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -15,14 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.fourthlap.a.settingspatroller.ActionsRequiredActivity" android:launchMode="singleInstance">
+        <activity android:name="com.fourthlap.a.settingswatcher.ActionsRequiredActivity" android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.fourthlap.a.settingspatroller.UserPreferencesActivity" android:launchMode="singleInstance">
+        <activity android:name="com.fourthlap.a.settingswatcher.UserPreferencesActivity" android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
                 <category android:name="android.intent.category.PREFERENCE" />
@@ -30,17 +30,17 @@
         </activity>
 
         <receiver
-            android:name="com.fourthlap.a.settingspatroller.TimerBroadcastReceiver"
+            android:name="com.fourthlap.a.settingswatcher.TimerBroadcastReceiver"
             android:process=":remote" />
 
-        <receiver android:name=".DeviceBootBroadcastReceiver">
+        <receiver android:name="com.fourthlap.a.settingswatcher.DeviceBootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
 
         <service
-            android:name="com.fourthlap.a.settingspatroller.PeriodicTaskExecutorService"
+            android:name="com.fourthlap.a.settingswatcher.PeriodicTaskExecutorService"
             android:exported="false" />
         <meta-data
             android:name="preloaded_fonts"

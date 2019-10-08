@@ -1,4 +1,4 @@
-package com.fourthlap.a.settingspatroller;
+package com.fourthlap.a.settingswatcher;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.fourthlap.a.settingspatroller.notification;
+package com.fourthlap.a.settingswatcher.notification;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
-import com.fourthlap.a.settingspatroller.ActionsRequiredActivity;
-import com.fourthlap.a.settingspatroller.R;
+import com.fourthlap.a.settingswatcher.ActionsRequiredActivity;
+import com.fourthlap.a.settingswatcher.R;
 
 public class ReminderNotificationHandler {
     public static final String NOTIFICATION_CHANNEL_ID = "SettingChecker-1";

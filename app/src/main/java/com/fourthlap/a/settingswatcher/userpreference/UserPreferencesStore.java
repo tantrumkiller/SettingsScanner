@@ -1,8 +1,8 @@
-package com.fourthlap.a.settingspatroller.userpreference;
+package com.fourthlap.a.settingswatcher.userpreference;
 
 import android.content.SharedPreferences;
 
-import com.fourthlap.a.settingspatroller.setting.Setting;
+import com.fourthlap.a.settingswatcher.setting.Setting;
 
 import java.util.Collections;
 import java.util.HashSet;
