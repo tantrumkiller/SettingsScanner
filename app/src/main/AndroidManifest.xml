@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fourthlap.a.settingswatcher">
+    package="com.fourthlap.settingsscanner">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:required="false"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:required="false"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" android:required="false"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" android:required="false"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" android:required="false" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -15,14 +17,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.fourthlap.a.settingswatcher.ActionsRequiredActivity" android:launchMode="singleInstance">
+        <activity android:name="com.fourthlap.settingsscanner.ActionsRequiredActivity" android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.fourthlap.a.settingswatcher.UserPreferencesActivity" android:launchMode="singleInstance">
+        <activity android:name="com.fourthlap.settingsscanner.UserPreferencesActivity" android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
                 <category android:name="android.intent.category.PREFERENCE" />
@@ -30,17 +32,17 @@
         </activity>
 
         <receiver
-            android:name="com.fourthlap.a.settingswatcher.TimerBroadcastReceiver"
+            android:name="com.fourthlap.settingsscanner.TimerBroadcastReceiver"
             android:process=":remote" />
 
-        <receiver android:name="com.fourthlap.a.settingswatcher.DeviceBootBroadcastReceiver">
+        <receiver android:name="com.fourthlap.settingsscanner.DeviceBootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
 
         <service
-            android:name="com.fourthlap.a.settingswatcher.PeriodicTaskExecutorService"
+            android:name="com.fourthlap.settingsscanner.PeriodicTaskExecutorService"
             android:exported="false" />
         <meta-data
             android:name="preloaded_fonts"

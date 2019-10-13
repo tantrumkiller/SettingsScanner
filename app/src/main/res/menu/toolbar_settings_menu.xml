@@ -4,4 +4,7 @@
     <item android:id="@+id/goto_preferences_button"
         android:title="@string/goto_user_preferences"
         app:showAsAction="never"/>
+    <item android:id="@+id/goto_rate_us"
+        android:title="@string/goto_rate_us"
+        app:showAsAction="never"/>
 </menu>

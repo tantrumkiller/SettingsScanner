@@ -8,7 +8,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="ToolBarStyle" parent="AppTheme">
+    <style name="ToolBarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="android:textColorPrimary">@color/background</item>
         <item name="android:textColorSecondary">@color/background</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>

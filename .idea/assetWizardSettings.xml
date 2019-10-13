@@ -75,7 +75,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="scalingPercent" value="44" />
+                                                <entry key="scalingPercent" value="67" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -97,7 +97,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="foregroundImage" value="C:\Users\Kshitiz\Desktop\Police Badge-595b40b65ba036ed117d221f.svg" />
+                                      <entry key="foregroundImage" value="C:\Users\Kshitiz\Desktop\android-chrome-512x512.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
