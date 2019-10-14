@@ -13,7 +13,7 @@
 
     <!-- Reminder Notification -->
     <string name="reminder_notification_title">Scan Complete</string>
-    <string name="reminder_notification_text">You need to disable some setting</string>
+    <string name="reminder_notification_text">You need to disable some settings</string>
     <string name="no_action_required_text">"No action needed, settings already disabled"</string>
 
     <!-- Settings displayable Names -->
