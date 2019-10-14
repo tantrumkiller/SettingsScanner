@@ -5,12 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 
 public class TimerBroadcastReceiver extends BroadcastReceiver {
-
   public static final int REQUEST_CODE = 12345;
 
   @Override
-  public void onReceive(Context context, Intent intent) {
-    final Intent i = new Intent(context, PeriodicTaskExecutorService.class);
-    context.startService(i);
+  public void onReceive(final Context context, final Intent intent) {
+    context.startService(new Intent(context, PeriodicTaskExecutorService.class));
   }
 }

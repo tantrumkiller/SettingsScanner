@@ -11,7 +11,6 @@ import com.fourthlap.settingsscanner.ActionsRequiredActivity;
 import com.fourthlap.settingsscanner.R;
 
 public class ReminderNotificationHandler {
-
   private static final String NOTIFICATION_CHANNEL_ID = "SettingChecker-1";
   private static final int NOTIFICATION_ID = 1;
   private static final String NOTIFICATION_CHANNEL_NAME = "SettingChecker";

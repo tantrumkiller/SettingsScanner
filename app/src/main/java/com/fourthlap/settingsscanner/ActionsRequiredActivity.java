@@ -3,10 +3,8 @@ package com.fourthlap.settingsscanner;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -24,25 +22,24 @@ import com.fourthlap.settingsscanner.alarm.AlarmScheduler;
 import com.fourthlap.settingsscanner.notification.ReminderNotificationHandler;
 import com.fourthlap.settingsscanner.setting.Setting;
 import com.fourthlap.settingsscanner.setting.SettingsConfig;
+import com.fourthlap.settingsscanner.setting.SettingsScanner;
 import com.fourthlap.settingsscanner.userpreference.UserPreferencesStore;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class ActionsRequiredActivity extends AppCompatActivity {
 
-  private final UserPreferencesStore userPreferencesStore;
-  private final SettingsConfig settingConfiguration;
+  private final SettingsScanner settingsScanner;
   private final AlarmScheduler alarmScheduler;
   private final ReminderNotificationHandler reminderNotificationHandler;
+  private final SettingsConfig settingsConfig;
 
   private RecyclerView recyclerView;
   private ActionRequiredRecyclerViewAdapter recycleViewAdapter;
 
   public ActionsRequiredActivity() {
     super();
-    this.userPreferencesStore = new UserPreferencesStore();
-    this.settingConfiguration = new SettingsConfig();
+    this.settingsConfig = new SettingsConfig();
+    this.settingsScanner = new SettingsScanner(new UserPreferencesStore(), settingsConfig);
     this.alarmScheduler = new AlarmScheduler();
     this.reminderNotificationHandler = new ReminderNotificationHandler();
   }
@@ -51,6 +48,7 @@ public class ActionsRequiredActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.actions_required);
+
     setupToolbar();
     setupRecycleView();
     setupPullToRefresh();
@@ -63,7 +61,7 @@ public class ActionsRequiredActivity extends AppCompatActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     super.onCreateOptionsMenu(menu);
 
-    MenuInflater inflater = getMenuInflater();
+    final MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.toolbar_settings_menu, menu);
     return true;
   }
@@ -82,16 +80,9 @@ public class ActionsRequiredActivity extends AppCompatActivity {
       @Override
       public boolean onMenuItemClick(MenuItem arg0) {
         if (arg0.getItemId() == R.id.goto_preferences_button) {
-          Intent intent = new Intent(getApplicationContext(), UserPreferencesActivity.class);
-          startActivity(intent);
+          startActivity(new Intent(getApplicationContext(), UserPreferencesActivity.class));
         } else if (arg0.getItemId() == R.id.goto_rate_us) {
-          Intent rateIntent = new Intent(Intent.ACTION_VIEW,
-              Uri.parse("market://details?id=" + getApplicationContext().getPackageName()));
-          try {
-            startActivity(rateIntent);
-          } catch (Exception e) {
-            Log.i("ActionsRequired", "Failed to open play store" + e);
-          }
+          takeUserToRateUs();
         }
 
         return false;
@@ -102,7 +93,7 @@ public class ActionsRequiredActivity extends AppCompatActivity {
   private void setupRecycleView() {
     this.recyclerView = findViewById(R.id.actions_required_recycler_view);
     this.recycleViewAdapter = new ActionRequiredRecyclerViewAdapter(getApplicationContext(),
-        new ArrayList<Setting>());
+        settingsConfig);
 
     // use this setting to improve performance if you know that changes
     // in content do not change the layout size of the RecyclerView
@@ -122,7 +113,7 @@ public class ActionsRequiredActivity extends AppCompatActivity {
     pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
       public void onRefresh() {
-        populateActionsListAndClearNotification(); // your code
+        populateActionsListAndClearNotification();
         pullToRefresh.setRefreshing(false);
       }
     });
@@ -140,24 +131,24 @@ public class ActionsRequiredActivity extends AppCompatActivity {
   }
 
   private void populateActionsListAndClearNotification() {
-    final List<Setting> settingsList = new ArrayList<>();
-    final Context context = getApplicationContext();
-    final SharedPreferences sharedPreferences = PreferenceManager
-        .getDefaultSharedPreferences(context);
-    final Set<Setting> settings = userPreferencesStore
-        .getSettingsEnabledForWatch(sharedPreferences);
-    for (final Setting setting : settings) {
-      if (settingConfiguration.getHandler(setting).isEnabled(context)) {
-        settingsList.add(setting);
-      }
-    }
-
+    final List<Setting> settingsList = settingsScanner.getEnabledSettings(getApplicationContext());
     recycleViewAdapter.setData(settingsList);
     recycleViewAdapter.notifyDataSetChanged();
 
     if (settingsList.size() == 0) {
-      NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-      reminderNotificationHandler.cancelNotification(nm);
+      final NotificationManager notificationManager = (NotificationManager) getSystemService(
+          Context.NOTIFICATION_SERVICE);
+      reminderNotificationHandler.cancelNotification(notificationManager);
+    }
+  }
+
+  private void takeUserToRateUs() {
+    final Intent rateIntent = new Intent(Intent.ACTION_VIEW,
+        Uri.parse("market://details?id=" + getApplicationContext().getPackageName()));
+    try {
+      startActivity(rateIntent);
+    } catch (Exception e) {
+      Log.i("ActionsRequired", "Failed to open play store" + e);
     }
   }
 }

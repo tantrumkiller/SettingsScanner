@@ -10,7 +10,6 @@ import com.fourthlap.settingsscanner.TimerBroadcastReceiver;
 import java.util.Calendar;
 
 public class AlarmScheduler {
-
   public void scheduleAlarm(final Context context) {
     final Intent intent = new Intent(context, TimerBroadcastReceiver.class);
 

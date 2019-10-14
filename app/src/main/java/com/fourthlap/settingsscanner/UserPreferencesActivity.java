@@ -1,6 +1,5 @@
 package com.fourthlap.settingsscanner;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,7 +26,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
   }
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.preferences);
 
@@ -44,25 +43,27 @@ public class UserPreferencesActivity extends AppCompatActivity {
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        Intent intent = new Intent(getApplicationContext(), ActionsRequiredActivity.class);
-        startActivity(intent);
+        startActivity(new Intent(getApplicationContext(), ActionsRequiredActivity.class));
       }
     });
   }
 
   private void populateUserPreferences() {
-    final Context context = getApplicationContext();
     final SharedPreferences sharedPreferences = PreferenceManager
-        .getDefaultSharedPreferences(context);
+        .getDefaultSharedPreferences(getApplicationContext());
 
     final Set<Setting> userConfiguration = configurationStore
         .getSettingsEnabledForWatch(sharedPreferences);
 
     for (final Setting setting : Setting.values()) {
       final Switch switchButton = findViewById(settingConfiguration.getPreferenceButtonId(setting));
+
       if (userConfiguration.contains(setting)) {
         switchButton.setChecked(true);
+      } else {
+        switchButton.setChecked(false);
       }
+
       switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
         public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
           configurationStore.updateSettingPreference(sharedPreferences, setting, isChecked);

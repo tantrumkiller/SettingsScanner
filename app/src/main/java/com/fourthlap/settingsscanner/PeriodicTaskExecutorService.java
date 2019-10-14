@@ -4,31 +4,24 @@ import android.app.IntentService;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import com.fourthlap.settingsscanner.alarm.AlarmScheduler;
 import com.fourthlap.settingsscanner.alarm.ScanTimeManager;
 import com.fourthlap.settingsscanner.notification.ReminderNotificationHandler;
-import com.fourthlap.settingsscanner.setting.Setting;
-import com.fourthlap.settingsscanner.setting.SettingHandler;
 import com.fourthlap.settingsscanner.setting.SettingsConfig;
+import com.fourthlap.settingsscanner.setting.SettingsScanner;
 import com.fourthlap.settingsscanner.userpreference.UserPreferencesStore;
-import java.util.Set;
 
 public class PeriodicTaskExecutorService extends IntentService {
-
-  private final SettingsConfig settingsConfiguration;
-  private final UserPreferencesStore configurationStore;
   private final ReminderNotificationHandler reminderNotificationHandler;
+  private final SettingsScanner settingsScanner;
   private final AlarmScheduler alarmScheduler;
 
   public PeriodicTaskExecutorService() {
     super("PeriodicTaskExecutorService");
-    this.settingsConfiguration = new SettingsConfig();
-    this.configurationStore = new UserPreferencesStore();
     this.reminderNotificationHandler = new ReminderNotificationHandler();
     this.alarmScheduler = new AlarmScheduler();
+    this.settingsScanner = new SettingsScanner(new UserPreferencesStore(),  new SettingsConfig());
   }
 
   @Override
@@ -41,24 +34,15 @@ public class PeriodicTaskExecutorService extends IntentService {
     }
 
     final Context context = getApplicationContext();
-    final SharedPreferences sharedPreferences = PreferenceManager
-        .getDefaultSharedPreferences(context);
     final NotificationManager notificationManager = (NotificationManager) getSystemService(
         Context.NOTIFICATION_SERVICE);
 
-    final Set<Setting> whitelistedSettings = configurationStore
-        .getSettingsEnabledForWatch(sharedPreferences);
-    for (final Setting setting : whitelistedSettings) {
-      SettingHandler handler = settingsConfiguration.getHandler(setting);
-      if (handler.isEnabled(context)) {
-        Log.i("PeriodicTaskExecutor",
-            String.format("%s setting is enabled, notifying user", setting));
-        reminderNotificationHandler.notifyUser(context, notificationManager);
-        return;
-      }
+    if (settingsScanner.isAnySettingEnabled(context)) {
+      Log.i("PeriodicTaskExecutor", "Some settings are enabled, notifying user");
+      reminderNotificationHandler.notifyUser(context, notificationManager);
+    } else {
+      Log.i("PeriodicTaskExecutor", "Required settings are now disabled, cancelling notification");
+      reminderNotificationHandler.cancelNotification(notificationManager);
     }
-
-    Log.i("PeriodicTaskExecutor", "Required settings are now disabled, cancelling notification");
-    reminderNotificationHandler.cancelNotification(notificationManager);
   }
 }

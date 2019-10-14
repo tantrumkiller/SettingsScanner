@@ -11,21 +11,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.fourthlap.settingsscanner.setting.Setting;
 import com.fourthlap.settingsscanner.setting.SettingsConfig;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ActionRequiredRecyclerViewAdapter extends
     RecyclerView.Adapter<ActionRequiredRecyclerViewAdapter.ViewHolder> {
 
   private final LayoutInflater layoutInflater;
-  private final SettingsConfig settingsConfig;
   private final Drawable arrowImage;
+  private final SettingsConfig settingsConfig;
 
   private List<Setting> enabledSettings;
 
-  ActionRequiredRecyclerViewAdapter(final Context context, final List<Setting> enabledSettings) {
+  ActionRequiredRecyclerViewAdapter(final Context context, final SettingsConfig settingsConfig) {
     this.layoutInflater = LayoutInflater.from(context);
-    this.enabledSettings = enabledSettings;
-    this.settingsConfig = new SettingsConfig();
+    this.settingsConfig = settingsConfig;
+    this.enabledSettings = new ArrayList<>();
     this.arrowImage = context.getResources()
         .getDrawable(R.drawable.ic_keyboard_arrow_right_black_24dp);
   }
@@ -46,7 +47,7 @@ public class ActionRequiredRecyclerViewAdapter extends
       return;
     }
 
-    int actionName = settingsConfig.getDisplayableNameId((enabledSettings.get(position)));
+    int actionName = settingsConfig.getDisplayableNameResId((enabledSettings.get(position)));
     holder.textView.setText(actionName);
     holder.imageView.setImageDrawable(arrowImage);
   }

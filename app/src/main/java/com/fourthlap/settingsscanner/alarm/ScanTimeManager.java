@@ -41,7 +41,7 @@ public class ScanTimeManager {
           0,
           0);
     } else {
-      //Re-run after every RERUN_AFTER_HOURS number of hours
+      //Re-run after every "RERUN_AFTER_HOURS" number of hours
       int reRunHour = RERUN_AFTER_HOURS * (rightNow.get(Calendar.HOUR_OF_DAY) / RERUN_AFTER_HOURS)
           + RERUN_AFTER_HOURS;
 
