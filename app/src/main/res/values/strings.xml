@@ -2,19 +2,19 @@
     <string name="app_name">Settings Scanner</string>
 
     <!-- Actions Required page -->
-    <string name="actions_required_heading">Enabled Settings</string>
+    <string name="actions_required_heading">Settings currently enabled</string>
     <string name="goto_user_preferences">Preferences</string>
     <string name="goto_rate_us">Rate us</string>
     <string name="goto_support">Support</string>
 
     <!-- Preferences page-->
-    <string name="preferences_heading">Preferences</string>
+    <string name="preferences_heading">Scanner Preferences</string>
     <string name="preferences_sub_heading">Toggle to enable scan for a setting</string>
 
     <!-- Reminder Notification -->
     <string name="reminder_notification_title">Scan Complete</string>
-    <string name="reminder_notification_text">You need to disable some settings</string>
-    <string name="no_action_required_text">"No action needed, settings already disabled"</string>
+    <string name="reminder_notification_text">SettingWatcher detected some enabled settings</string>
+    <string name="no_action_required_text">SettingsScanner did not find any enabled settings. Go to preferences to enable more scans</string>
 
     <!-- Settings displayable Names -->
     <string name="gps_displayable_name">Location</string>

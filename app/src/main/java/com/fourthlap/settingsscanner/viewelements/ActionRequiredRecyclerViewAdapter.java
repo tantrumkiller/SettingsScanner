@@ -1,4 +1,4 @@
-package com.fourthlap.settingsscanner;
+package com.fourthlap.settingsscanner.viewelements;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.fourthlap.settingsscanner.R;
 import com.fourthlap.settingsscanner.setting.Setting;
 import com.fourthlap.settingsscanner.setting.SettingsConfig;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class ActionRequiredRecyclerViewAdapter extends
 
   private List<Setting> enabledSettings;
 
-  ActionRequiredRecyclerViewAdapter(final Context context, final SettingsConfig settingsConfig) {
+  public ActionRequiredRecyclerViewAdapter(final Context context, final SettingsConfig settingsConfig) {
     this.layoutInflater = LayoutInflater.from(context);
     this.settingsConfig = settingsConfig;
     this.enabledSettings = new ArrayList<>();

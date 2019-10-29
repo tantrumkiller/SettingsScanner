@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,18 +19,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import com.fourthlap.settingsscanner.alarm.AlarmScheduler;
+import android.widget.Button;
+import com.fourthlap.settingsscanner.scheduler.ScanScheduler;
 import com.fourthlap.settingsscanner.notification.ReminderNotificationHandler;
 import com.fourthlap.settingsscanner.setting.Setting;
 import com.fourthlap.settingsscanner.setting.SettingsConfig;
 import com.fourthlap.settingsscanner.setting.SettingsScanner;
 import com.fourthlap.settingsscanner.userpreference.UserPreferencesStore;
+import com.fourthlap.settingsscanner.viewelements.ActionRequiredRecyclerViewAdapter;
+import com.fourthlap.settingsscanner.viewelements.GotoPreferenceButton;
 import java.util.List;
 
 public class ActionsRequiredActivity extends AppCompatActivity {
 
   private final SettingsScanner settingsScanner;
-  private final AlarmScheduler alarmScheduler;
+  private final ScanScheduler scanScheduler;
   private final ReminderNotificationHandler reminderNotificationHandler;
   private final SettingsConfig settingsConfig;
 
@@ -38,9 +42,10 @@ public class ActionsRequiredActivity extends AppCompatActivity {
 
   public ActionsRequiredActivity() {
     super();
+    final UserPreferencesStore userPreferencesStore = new UserPreferencesStore();
     this.settingsConfig = new SettingsConfig();
     this.settingsScanner = new SettingsScanner(new UserPreferencesStore(), settingsConfig);
-    this.alarmScheduler = new AlarmScheduler();
+    this.scanScheduler = new ScanScheduler(userPreferencesStore);
     this.reminderNotificationHandler = new ReminderNotificationHandler();
   }
 
@@ -48,13 +53,17 @@ public class ActionsRequiredActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.actions_required);
+    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
     setupToolbar();
     setupRecycleView();
     setupPullToRefresh();
     setupFloatingButton();
     populateActionsListAndClearNotification();
-    alarmScheduler.scheduleAlarm(getApplicationContext());
+    scanScheduler.scheduleNextScan(getApplicationContext());
+
+    Button button = findViewById(R.id.main_goto_preferences_button);
+    button.setOnClickListener(new GotoPreferenceButton());
   }
 
   @Override
@@ -131,6 +140,10 @@ public class ActionsRequiredActivity extends AppCompatActivity {
   }
 
   private void populateActionsListAndClearNotification() {
+    findViewById(R.id.actions_required_heading).setVisibility(View.VISIBLE);
+    findViewById(R.id.actions_required_swipe_refresh).setVisibility(View.VISIBLE);
+    findViewById(R.id.no_actions_needed).setVisibility(View.GONE);
+
     final List<Setting> settingsList = settingsScanner.getEnabledSettings(getApplicationContext());
     recycleViewAdapter.setData(settingsList);
     recycleViewAdapter.notifyDataSetChanged();
@@ -139,6 +152,9 @@ public class ActionsRequiredActivity extends AppCompatActivity {
       final NotificationManager notificationManager = (NotificationManager) getSystemService(
           Context.NOTIFICATION_SERVICE);
       reminderNotificationHandler.cancelNotification(notificationManager);
+      findViewById(R.id.actions_required_heading).setVisibility(View.GONE);
+      findViewById(R.id.actions_required_swipe_refresh).setVisibility(View.GONE);
+      findViewById(R.id.no_actions_needed).setVisibility(View.VISIBLE);
     }
   }
 

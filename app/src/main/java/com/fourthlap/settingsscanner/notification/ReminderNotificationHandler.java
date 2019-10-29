@@ -32,7 +32,8 @@ public class ReminderNotificationHandler {
         .setContentTitle(context.getString(R.string.reminder_notification_title))
         .setContentText(context.getString(R.string.reminder_notification_text))
         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        .setContentIntent(intent);
+        .setContentIntent(intent)
+        .setOngoing(true);
 
     notificationManager.notify(NOTIFICATION_ID, builder.build());
   }

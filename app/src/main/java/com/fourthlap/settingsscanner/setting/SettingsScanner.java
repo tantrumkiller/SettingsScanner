@@ -20,18 +20,18 @@ public class SettingsScanner {
   }
 
   public List<Setting> getEnabledSettings(final Context context) {
-    final List<Setting> settingsList = new ArrayList<>();
-    for (final Setting setting : getSettingsEnabledForScan(context)) {
+    final List<Setting> enabledSettings = new ArrayList<>();
+    for (final Setting setting : getSettingsToBeScanned(context)) {
       if (settingsConfig.getHandler(setting).isEnabled(context)) {
-        settingsList.add(setting);
+        enabledSettings.add(setting);
       }
     }
 
-    return Collections.unmodifiableList(settingsList);
+    return Collections.unmodifiableList(enabledSettings);
   }
 
   public boolean isAnySettingEnabled(final Context context) {
-    for (final Setting setting : getSettingsEnabledForScan(context)) {
+    for (final Setting setting : getSettingsToBeScanned(context)) {
       if (settingsConfig.getHandler(setting).isEnabled(context)) {
         return true;
       }
@@ -40,10 +40,10 @@ public class SettingsScanner {
     return false;
   }
 
-  private Set<Setting> getSettingsEnabledForScan(final Context context) {
+  private Set<Setting> getSettingsToBeScanned(final Context context) {
     final SharedPreferences sharedPreferences = PreferenceManager
         .getDefaultSharedPreferences(context);
     return userPreferencesStore
-        .getSettingsEnabledForWatch(sharedPreferences);
+        .getSettingsToBeScanned(sharedPreferences);
   }
 }
