@@ -11,6 +11,7 @@ import android.util.Log;
 import com.fourthlap.settingsscanner.TimerBroadcastReceiver;
 import com.fourthlap.settingsscanner.userpreference.UserPreferencesStore;
 import java.util.Calendar;
+import java.util.Date;
 
 public class ScanScheduler {
 
@@ -23,20 +24,11 @@ public class ScanScheduler {
   public void scheduleNextScan(final Context context) {
     final Intent intent = new Intent(context, TimerBroadcastReceiver.class);
 
-    final PendingIntent existingIntent = PendingIntent
-        .getBroadcast(context, TimerBroadcastReceiver.REQUEST_CODE, intent,
-            PendingIntent.FLAG_NO_CREATE);
-
     final SharedPreferences sharedPreferences = PreferenceManager
         .getDefaultSharedPreferences(context);
-    final String existingTime = userPreferencesStore.getNextScanTime(sharedPreferences);
 
-    Log.i("ScanScheduler", "Config entry for alarm time: " + existingTime);
-
-    if (existingIntent != null) {
-      Log.i("ScanScheduler", "Alarm is already set, ignoring request");
-      return;
-    }
+    final Date existingTime = userPreferencesStore.getNextScanTime(sharedPreferences);
+    Log.i("ScanScheduler", "Existing scan time in preference store: " + existingTime);
 
     final PendingIntent updatedPendingIntent = PendingIntent
         .getBroadcast(context, TimerBroadcastReceiver.REQUEST_CODE,
@@ -55,6 +47,6 @@ public class ScanScheduler {
     }
 
     Log.i("ScanScheduler", "Set next scan time as: " + nextScanTime.getTime());
-    userPreferencesStore.setNextScanTime(sharedPreferences, nextScanTime.getTime().toString());
+    userPreferencesStore.setNextScanTime(sharedPreferences, nextScanTime.getTime());
   }
 }

@@ -8,9 +8,27 @@ import java.util.Calendar;
 // power saving modes
 public class ScanTimeCalculator {
 
-  public static Calendar getNextScanTime(final Calendar currentTime, final int frequency) {
+  /***
+   * Calculates next scan time based on current time and frequency.
+   * scan time are part of sequence frequency, 2*frequency, 3*frequency
+   * For example with frequency 3 and currentTime between 3:00-5:59  will always return 6 as answer
+   * @param currentTime
+   * @param frequency
+   * @return
+   */
+  public static Calendar getNextScanTime(final Calendar currentTime, int frequency) {
     final Calendar scheduledDate = (Calendar) currentTime.clone();
-    scheduledDate.add(Calendar.HOUR_OF_DAY, frequency);
+
+    int currentHour = scheduledDate.get(Calendar.HOUR_OF_DAY);
+    int reRunHour = frequency * (currentHour / frequency) + frequency;
+
+    int difference = reRunHour - currentHour;
+
+    if (reRunHour >= 24) {
+      difference = (reRunHour % 24) + (24 - currentHour);
+    }
+
+    scheduledDate.add(Calendar.HOUR_OF_DAY, difference);
     scheduledDate.set(Calendar.MINUTE, 0);
     scheduledDate.set(Calendar.SECOND, 0);
 

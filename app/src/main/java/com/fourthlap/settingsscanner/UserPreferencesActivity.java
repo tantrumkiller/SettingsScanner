@@ -13,18 +13,19 @@ import android.widget.Switch;
 import com.fourthlap.settingsscanner.setting.Setting;
 import com.fourthlap.settingsscanner.setting.SettingsConfig;
 import com.fourthlap.settingsscanner.userpreference.UserPreferencesStore;
+import com.fourthlap.settingsscanner.viewelements.FrequencyButton;
 import com.fourthlap.settingsscanner.viewelements.SleepWindowEndButton;
 import com.fourthlap.settingsscanner.viewelements.SleepWindowStartButton;
 import java.util.Set;
 
 public class UserPreferencesActivity extends AppCompatActivity {
 
-  private final UserPreferencesStore configurationStore;
+  private final UserPreferencesStore userPreferencesStore;
   private final SettingsConfig settingConfiguration;
 
   public UserPreferencesActivity() {
     super();
-    this.configurationStore = new UserPreferencesStore();
+    this.userPreferencesStore = new UserPreferencesStore();
     this.settingConfiguration = new SettingsConfig();
   }
 
@@ -36,6 +37,8 @@ public class UserPreferencesActivity extends AppCompatActivity {
     setupToolbar();
     populateUserPreferences();
     setupTimerPreferencesButtons();
+    new FrequencyButton((Button) findViewById(R.id.frequencySelectorButton), userPreferencesStore)
+        .setupButton(getApplicationContext());
   }
 
   private void setupToolbar() {
@@ -56,7 +59,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
     final SharedPreferences sharedPreferences = PreferenceManager
         .getDefaultSharedPreferences(getApplicationContext());
 
-    final Set<Setting> userConfiguration = configurationStore
+    final Set<Setting> userConfiguration = userPreferencesStore
         .getSettingsToBeScanned(sharedPreferences);
 
     for (final Setting setting : Setting.values()) {
@@ -70,7 +73,8 @@ public class UserPreferencesActivity extends AppCompatActivity {
 
       switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
         public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
-          configurationStore.updateSettingsToBeScannedPreferences(sharedPreferences, setting, isChecked);
+          userPreferencesStore
+              .updateSettingsToBeScannedPreferences(sharedPreferences, setting, isChecked);
         }
       });
     }
@@ -81,13 +85,15 @@ public class UserPreferencesActivity extends AppCompatActivity {
         .getDefaultSharedPreferences(getApplicationContext());
 
     final Button sleepTimeStartButton = findViewById(R.id.sleepHourStartButton);
-    sleepTimeStartButton.setOnClickListener(new SleepWindowStartButton(configurationStore, sleepTimeStartButton));
+    sleepTimeStartButton
+        .setOnClickListener(new SleepWindowStartButton(userPreferencesStore, sleepTimeStartButton));
     sleepTimeStartButton.setText(
-        configurationStore.getSleepWindowStartTime(sharedPreferences).getDisplayableString());
+        userPreferencesStore.getSleepWindowStartTime(sharedPreferences).getDisplayableString());
 
     final Button sleepEndStartButton = findViewById(R.id.sleepHourEndButton);
-    sleepEndStartButton.setOnClickListener(new SleepWindowEndButton(configurationStore, sleepEndStartButton));
+    sleepEndStartButton
+        .setOnClickListener(new SleepWindowEndButton(userPreferencesStore, sleepEndStartButton));
     sleepEndStartButton.setText(
-        configurationStore.getSleepWindowEndTime(sharedPreferences).getDisplayableString());
+        userPreferencesStore.getSleepWindowEndTime(sharedPreferences).getDisplayableString());
   }
 }

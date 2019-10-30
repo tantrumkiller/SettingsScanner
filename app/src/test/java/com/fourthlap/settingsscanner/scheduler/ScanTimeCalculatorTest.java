@@ -22,7 +22,7 @@ public class ScanTimeCalculatorTest {
   @Test
   public void testGetNextScanTime_sameDay() {
     final Calendar time = getCalendar(2);
-    final Calendar scanTime = ScanTimeCalculator.getNextScanTime(time, 3);
+    final Calendar scanTime = ScanTimeCalculator.getNextScanTime(time, 5);
 
     assertThat(scanTime.get(Calendar.YEAR), is(DEFAULT_YEAR));
     assertThat(scanTime.get(Calendar.MONTH), is(DECEMBER));
@@ -36,12 +36,12 @@ public class ScanTimeCalculatorTest {
   public void testGetNextScanTime_nextDay() {
     Calendar time = getCalendar(23);
 
-    Calendar scanTime = ScanTimeCalculator.getNextScanTime(time, 3);
+    Calendar scanTime = ScanTimeCalculator.getNextScanTime(time, 5);
 
     assertThat(scanTime.get(Calendar.YEAR), is(DEFAULT_YEAR));
     assertThat(scanTime.get(Calendar.MONTH), is(DECEMBER));
     assertThat(scanTime.get(Calendar.DAY_OF_MONTH), is(ELEVENTH + 1));
-    assertThat(scanTime.get(Calendar.HOUR), is(2));
+    assertThat(scanTime.get(Calendar.HOUR), is(1));
     assertThat(scanTime.get(Calendar.MINUTE), is(0));
     assertThat(scanTime.get(Calendar.SECOND), is(0));
   }

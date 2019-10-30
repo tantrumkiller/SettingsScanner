@@ -3,7 +3,10 @@ package com.fourthlap.settingsscanner.userpreference;
 import android.content.SharedPreferences;
 import android.util.Log;
 import com.fourthlap.settingsscanner.setting.Setting;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +18,8 @@ public class UserPreferencesStore {
   private static final String SLEEP_WINDOW_END_MIN_KEY = "SleepWindowEndMinutes";
   private static final String FREQUENCY_OF_SCAN_KEY = "frequencyOfScan";
   private static final String NEXT_SCAN_TIME_SET_KEY = "nextScanTime";
+  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(
+      "E MMM dd HH:mm:ss Z yyy");
 
   public Set<Setting> getSettingsToBeScanned(final SharedPreferences sharedPref) {
     final Set<Setting> settingsToBeScanned = new HashSet<>();
@@ -29,7 +34,8 @@ public class UserPreferencesStore {
     return Collections.unmodifiableSet(settingsToBeScanned);
   }
 
-  public void updateSettingsToBeScannedPreferences(final SharedPreferences sharedPref, final Setting setting,
+  public void updateSettingsToBeScannedPreferences(final SharedPreferences sharedPref,
+      final Setting setting,
       boolean isWhitelistedForScan) {
     final SharedPreferences.Editor editor = sharedPref.edit();
     Log.i("UserPreferencesStore", setting + " isWhitelistedForScan: " + isWhitelistedForScan);
@@ -37,7 +43,7 @@ public class UserPreferencesStore {
     editor.commit();
   }
 
-  public void setSleepWindowStartTime(final SharedPreferences sharedPref, int hour, int minutes){
+  public void setSleepWindowStartTime(final SharedPreferences sharedPref, int hour, int minutes) {
     final SharedPreferences.Editor editor = sharedPref.edit();
     editor.putInt(SLEEP_WINDOW_START_HOUR_KEY, hour);
     editor.putInt(SLEEP_WINDOW_START_MIN_KEY, minutes);
@@ -51,7 +57,7 @@ public class UserPreferencesStore {
     return new TimeOfTheDay(hour, minutes);
   }
 
-  public void setSleepWindowEndTime(final SharedPreferences sharedPref, int hour, int minutes){
+  public void setSleepWindowEndTime(final SharedPreferences sharedPref, int hour, int minutes) {
     final SharedPreferences.Editor editor = sharedPref.edit();
     editor.putInt(SLEEP_WINDOW_END_HOUR_KEY, hour);
     editor.putInt(SLEEP_WINDOW_END_MIN_KEY, minutes);
@@ -65,7 +71,7 @@ public class UserPreferencesStore {
     return new TimeOfTheDay(hour, minutes);
   }
 
-  public void setFrequencyOfScan(final SharedPreferences sharedPref, int frequencyOfScan){
+  public void setFrequencyOfScan(final SharedPreferences sharedPref, int frequencyOfScan) {
     final SharedPreferences.Editor editor = sharedPref.edit();
     editor.putInt(FREQUENCY_OF_SCAN_KEY, frequencyOfScan);
     editor.commit();
@@ -75,13 +81,23 @@ public class UserPreferencesStore {
     return sharedPref.getInt(FREQUENCY_OF_SCAN_KEY, 3);
   }
 
-  public void setNextScanTime(final SharedPreferences sharedPref, String nextScanTime){
+  public void setNextScanTime(final SharedPreferences sharedPref, Date date) {
     final SharedPreferences.Editor editor = sharedPref.edit();
-    editor.putString(NEXT_SCAN_TIME_SET_KEY, nextScanTime);
+    editor.putString(NEXT_SCAN_TIME_SET_KEY, DATE_FORMAT.format(date));
     editor.commit();
   }
 
-  public String getNextScanTime(final SharedPreferences sharedPref) {
-    return sharedPref.getString(NEXT_SCAN_TIME_SET_KEY, "NOT_SET");
+  public Date getNextScanTime(final SharedPreferences sharedPref) {
+    String dateString = sharedPref.getString(NEXT_SCAN_TIME_SET_KEY, "NOT_SET");
+    if("NOT_SET".equals(dateString)){
+      return null;
+    }
+
+    try {
+      return DATE_FORMAT.parse(dateString);
+    } catch (ParseException e){
+      Log.i("UserPreferencesStore", "Failed to load scan time, returning null");
+      return null;
+    }
   }
 }

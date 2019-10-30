@@ -20,8 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import com.fourthlap.settingsscanner.scheduler.ScanScheduler;
 import com.fourthlap.settingsscanner.notification.ReminderNotificationHandler;
+import com.fourthlap.settingsscanner.scheduler.ScanScheduler;
 import com.fourthlap.settingsscanner.setting.Setting;
 import com.fourthlap.settingsscanner.setting.SettingsConfig;
 import com.fourthlap.settingsscanner.setting.SettingsScanner;
@@ -36,15 +36,15 @@ public class ActionsRequiredActivity extends AppCompatActivity {
   private final ScanScheduler scanScheduler;
   private final ReminderNotificationHandler reminderNotificationHandler;
   private final SettingsConfig settingsConfig;
-
+  private final UserPreferencesStore userPreferencesStore;
   private RecyclerView recyclerView;
   private ActionRequiredRecyclerViewAdapter recycleViewAdapter;
 
   public ActionsRequiredActivity() {
     super();
-    final UserPreferencesStore userPreferencesStore = new UserPreferencesStore();
+    this.userPreferencesStore = new UserPreferencesStore();
     this.settingsConfig = new SettingsConfig();
-    this.settingsScanner = new SettingsScanner(new UserPreferencesStore(), settingsConfig);
+    this.settingsScanner = new SettingsScanner(userPreferencesStore, settingsConfig);
     this.scanScheduler = new ScanScheduler(userPreferencesStore);
     this.reminderNotificationHandler = new ReminderNotificationHandler();
   }
