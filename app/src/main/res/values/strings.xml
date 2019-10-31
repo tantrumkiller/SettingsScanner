@@ -3,18 +3,20 @@
 
     <!-- Actions Required page -->
     <string name="actions_required_heading">Settings currently enabled</string>
-    <string name="goto_user_preferences">Preferences</string>
+    <string name="goto_user_preferences">Open Preferences</string>
     <string name="goto_rate_us">Rate us</string>
-    <string name="goto_support">Support</string>
-
+    <string name="no_action_required_text">SettingsScanner did not find any enabled settings. Go to preferences to enable more scans.</string>
     <!-- Preferences page-->
-    <string name="preferences_heading">Scanner Preferences</string>
-    <string name="preferences_sub_heading">Toggle to enable scan for a setting</string>
+    <string name="scanner_settings_heading">Scanner Preferences</string>
+    <string name="scanner_settings_sub_heading">Toggle to allow SettingScanner scan the setting</string>
+    <string name="timer_settings_heading">Timer Preferences</string>
+    <string name="sleep_time_start">Quiet hours start: </string>
+    <string name="sleep_time_end">Quiet hours end: </string>
+    <string name="scan_frequency">Time between scans: </string>
 
     <!-- Reminder Notification -->
     <string name="reminder_notification_title">Scan Complete</string>
     <string name="reminder_notification_text">SettingWatcher detected some enabled settings</string>
-    <string name="no_action_required_text">SettingsScanner did not find any enabled settings. Go to preferences to enable more scans</string>
 
     <!-- Settings displayable Names -->
     <string name="gps_displayable_name">Location</string>

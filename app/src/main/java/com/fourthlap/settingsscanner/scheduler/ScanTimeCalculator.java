@@ -16,11 +16,11 @@ public class ScanTimeCalculator {
    * @param frequency
    * @return
    */
-  public static Calendar getNextScanTime(final Calendar currentTime, int frequency) {
+  public static Calendar getNextScanTime(final Calendar currentTime,final int frequency) {
     final Calendar scheduledDate = (Calendar) currentTime.clone();
 
     int currentHour = scheduledDate.get(Calendar.HOUR_OF_DAY);
-    int reRunHour = frequency * (currentHour / frequency) + frequency;
+    int reRunHour = (frequency * (currentHour / frequency)) + frequency;
 
     int difference = reRunHour - currentHour;
 
@@ -35,6 +35,13 @@ public class ScanTimeCalculator {
     return scheduledDate;
   }
 
+  /***
+   * Calculates is current time falls in sleep window
+   * @param currentTime
+   * @param sleepWindowStartTime
+   * @param sleepWindowEndTime
+   * @return
+   */
   public static boolean isSleepTime(final Calendar currentTime,
       final TimeOfTheDay sleepWindowStartTime,
       final TimeOfTheDay sleepWindowEndTime) {

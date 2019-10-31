@@ -6,6 +6,15 @@ public class TimeOfTheDay {
   private final int minutes;
 
   public TimeOfTheDay(int hour, int minutes) {
+    if (hour < 0 || hour > 24) {
+      throw new IllegalArgumentException("Hour needs to be between 0 and 24, current value is: " + hour);
+    }
+
+    if (minutes < 0 || minutes > 60) {
+      throw new IllegalArgumentException(
+          "Minutes needs to be between 0 and 60, current value is: " + minutes);
+    }
+
     this.hour = hour;
     this.minutes = minutes;
   }

@@ -25,8 +25,9 @@ public class FrequencyButton implements OnClickListener, NumberPicker.OnValueCha
   }
 
   public void setupButton(Context context) {
-    b.setText(String.valueOf(userPreferencesStore
-        .getFrequencyOfScan(PreferenceManager.getDefaultSharedPreferences(context))));
+    String frequency = String.valueOf(userPreferencesStore
+        .getFrequencyOfScan(PreferenceManager.getDefaultSharedPreferences(context)));
+    b.setText(frequency + " hours");
     b.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -50,13 +51,13 @@ public class FrequencyButton implements OnClickListener, NumberPicker.OnValueCha
 
     final Dialog d = new Dialog(context);
     d.setTitle("NumberPicker");
-    d.setContentView(R.layout.number_picker);
+    d.setContentView(R.layout.number_picker_widget);
     Button b1 = d.findViewById(R.id.button1);
     Button b2 = d.findViewById(R.id.button2);
 
     final NumberPicker np = d.findViewById(R.id.numberPicker1);
-    np.setMaxValue(6);
-    np.setMinValue(1);
+    np.setMaxValue(UserPreferencesStore.MAX_FREQUENCY);
+    np.setMinValue(UserPreferencesStore.MIN_FREQUENCY);
     np.setValue(userPreferencesStore
         .getFrequencyOfScan(PreferenceManager.getDefaultSharedPreferences(context)));
     np.setWrapSelectorWheel(false);
@@ -65,7 +66,7 @@ public class FrequencyButton implements OnClickListener, NumberPicker.OnValueCha
     b1.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        b.setText(String.valueOf(np.getValue()));
+        b.setText(String.valueOf(np.getValue()) + " hours");
 
         final SharedPreferences sharedPreferences = PreferenceManager
             .getDefaultSharedPreferences(v.getContext());

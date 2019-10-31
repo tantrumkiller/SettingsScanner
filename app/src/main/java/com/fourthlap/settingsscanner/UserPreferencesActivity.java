@@ -32,7 +32,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.preferences);
+    setContentView(R.layout.user_preferences_page);
 
     setupToolbar();
     populateUserPreferences();

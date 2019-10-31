@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<View
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_marginTop="60dp"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+  <TextView
+    android:id="@+id/preferences_heading"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:fontFamily="sans-serif-black"
+    android:text="@string/scanner_settings_heading"
+    android:textAlignment="center"
+    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+    android:textSize="18dp"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/toolbar_user_preferences" />
+
+  <TextView
+    android:id="@+id/preferences_sub_heading"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:text="@string/scanner_settings_sub_heading"
+    android:textAlignment="center"
+    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+    android:textSize="@dimen/text_size_small"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/preferences_heading" />
+
+  <Switch
+    android:id="@+id/gps_toggle_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:text="@string/gps_displayable_name"
+    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    android:textSize="@dimen/text_size_large"
+    android:background="?android:attr/selectableItemBackground"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/preferences_sub_heading" />
+
+  <include layout="@layout/seaprator"/>
+
+  <Switch
+    android:id="@+id/mobile_data_toggle_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:text="@string/mobile_data_displayable_name"
+    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    android:textSize="@dimen/text_size_large"
+    android:background="?android:attr/selectableItemBackground"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/gps_toggle_button" />
+
+  <include layout="@layout/seaprator"/>
+
+  <Switch
+    android:id="@+id/bluetooth_toggle_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:text="@string/bluetooth_displayable_name"
+    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    android:textSize="@dimen/text_size_large"
+    android:background="?android:attr/selectableItemBackground"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/gps_toggle_button" />
+
+  <include layout="@layout/seaprator"/>
+
+  <Switch
+    android:id="@+id/hotspot_toggle_button"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:text="@string/hotspot_displayable_name"
+    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    android:textSize="@dimen/text_size_large"
+    android:background="?android:attr/selectableItemBackground"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/gps_toggle_button" />
+</View>

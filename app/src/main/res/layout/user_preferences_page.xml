@@ -35,16 +35,18 @@
           app:layout_constraintRight_toRightOf="parent"
           app:layout_constraintTop_toBottomOf="@+id/toolbar_user_preferences">
 
+            <!-- Scanner preferences section -->
+
             <TextView
               android:id="@+id/preferences_heading"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginTop="8dp"
+              android:layout_marginTop="@dimen/standard_margin_top"
               android:fontFamily="sans-serif-black"
-              android:text="@string/preferences_heading"
+              android:text="@string/scanner_settings_heading"
               android:textAlignment="center"
               android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-              android:textSize="18dp"
+              android:textSize="@dimen/text_size_heading"
               app:layout_constraintLeft_toLeftOf="parent"
               app:layout_constraintRight_toRightOf="parent"
               app:layout_constraintTop_toTopOf="@+id/toolbar_user_preferences" />
@@ -54,7 +56,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginTop="2dp"
-              android:text="@string/preferences_sub_heading"
+              android:text="@string/scanner_settings_sub_heading"
               android:textAlignment="center"
               android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
               android:textSize="@dimen/text_size_small"
@@ -66,7 +68,7 @@
                 android:id="@+id/gps_toggle_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/standard_margin_top"
                 android:text="@string/gps_displayable_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="@dimen/text_size_large"
@@ -75,17 +77,13 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/preferences_sub_heading" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="3dp"
-                android:background="#c0c0c0"/>
+            <include layout="@layout/seaprator"/>
 
             <Switch
                 android:id="@+id/mobile_data_toggle_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/standard_margin_top"
                 android:text="@string/mobile_data_displayable_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="@dimen/text_size_large"
@@ -94,17 +92,13 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gps_toggle_button" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="3dp"
-                android:background="#c0c0c0"/>
+            <include layout="@layout/seaprator"/>
 
             <Switch
                 android:id="@+id/bluetooth_toggle_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/standard_margin_top"
                 android:text="@string/bluetooth_displayable_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="@dimen/text_size_large"
@@ -113,17 +107,13 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gps_toggle_button" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="3dp"
-                android:background="#c0c0c0"/>
+            <include layout="@layout/seaprator"/>
 
             <Switch
                 android:id="@+id/hotspot_toggle_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/standard_margin_top"
                 android:text="@string/hotspot_displayable_name"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="@dimen/text_size_large"
@@ -132,22 +122,18 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gps_toggle_button" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="3dp"
-                android:background="#c0c0c0"/>
+            <!-- Timer preferences section -->
 
             <TextView
               android:id="@+id/timer_heading"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginTop="8dp"
+              android:layout_marginTop="@dimen/standard_margin_top"
               android:fontFamily="sans-serif-black"
-              android:text="Timer Preferences"
+              android:text="@string/timer_settings_heading"
               android:textAlignment="center"
               android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-              android:textSize="18dp"
+              android:textSize="@dimen/text_size_heading"
               app:layout_constraintLeft_toLeftOf="parent"
               app:layout_constraintRight_toRightOf="parent"
               app:layout_constraintTop_toBottomOf="@+id/toolbar_user_preferences" />
@@ -156,7 +142,7 @@
               android:id="@+id/sleepHourStartRow"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginTop="8dp"
+              android:layout_marginTop="@dimen/standard_margin_top"
               android:orientation="horizontal"
               app:layout_constraintLeft_toLeftOf="parent"
               app:layout_constraintRight_toRightOf="parent"
@@ -165,7 +151,7 @@
                 <TextView
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="Sleep time start hour"
+                  android:text="@string/sleep_time_start"
                   android:layout_centerVertical="true"
                   android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                   android:textSize="@dimen/text_size_large" />
@@ -175,19 +161,16 @@
                   android:layout_alignParentRight="true"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="10:00 PM"/>
+                  android:text="22:00"/>
             </RelativeLayout>
-            <View
-              android:layout_width="match_parent"
-              android:layout_height="1dp"
-              android:layout_marginTop="3dp"
-              android:background="#c0c0c0"/>
+
+            <include layout="@layout/seaprator"/>
 
             <RelativeLayout
               android:id="@+id/sleepHourEndRow"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginTop="8dp"
+              android:layout_marginTop="@dimen/standard_margin_top"
               android:orientation="horizontal"
               app:layout_constraintLeft_toLeftOf="parent"
               app:layout_constraintRight_toRightOf="parent"
@@ -197,7 +180,7 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:layout_centerVertical="true"
-                  android:text="Sleep time end hour"
+                  android:text="@string/sleep_time_end"
                   android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                   android:textSize="@dimen/text_size_large" />
 
@@ -206,20 +189,16 @@
                   android:layout_alignParentRight="true"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="8:00 AM"/>
+                  android:text="8:00"/>
             </RelativeLayout>
 
-            <View
-              android:layout_width="match_parent"
-              android:layout_height="1dp"
-              android:layout_marginTop="3dp"
-              android:background="#c0c0c0"/>
+            <include layout="@layout/seaprator"/>
 
             <RelativeLayout
               android:id="@+id/frequencySelectorRow"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:layout_marginTop="8dp"
+              android:layout_marginTop="@dimen/standard_margin_top"
               android:orientation="horizontal"
               app:layout_constraintLeft_toLeftOf="parent"
               app:layout_constraintRight_toRightOf="parent"
@@ -228,7 +207,7 @@
                 <TextView
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="Scan frequency"
+                  android:text="@string/scan_frequency"
                   android:layout_centerVertical="true"
                   android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                   android:textSize="@dimen/text_size_large" />
@@ -238,14 +217,9 @@
                   android:layout_alignParentRight="true"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:text="2"/>
+                  android:textAllCaps="false"
+                  android:text="3"/>
             </RelativeLayout>
-
-            <View
-              android:layout_width="match_parent"
-              android:layout_height="1dp"
-              android:layout_marginTop="3dp"
-              android:background="#c0c0c0"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

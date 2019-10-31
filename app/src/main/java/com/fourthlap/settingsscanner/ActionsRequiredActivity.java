@@ -52,7 +52,7 @@ public class ActionsRequiredActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.actions_required);
+    setContentView(R.layout.actions_required_page);
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
     setupToolbar();
