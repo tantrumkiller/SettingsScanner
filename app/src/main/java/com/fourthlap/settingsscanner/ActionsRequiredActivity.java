@@ -54,7 +54,10 @@ public class ActionsRequiredActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.actions_required_page);
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    executeOnCreate();
+  }
 
+  void executeOnCreate(){
     setupToolbar();
     setupRecycleView();
     setupPullToRefresh();

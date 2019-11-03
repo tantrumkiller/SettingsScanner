@@ -1,19 +1,19 @@
 package com.fourthlap.settingsscanner.scheduler;
 
+import static com.fourthlap.settingsscanner.TestData.DECEMBER;
+import static com.fourthlap.settingsscanner.TestData.DEFAULT_YEAR;
+import static com.fourthlap.settingsscanner.TestData.ELEVENTH;
+import static com.fourthlap.settingsscanner.TestData.getCalendar;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import android.support.annotation.NonNull;
 import com.fourthlap.settingsscanner.userpreference.TimeOfTheDay;
 import java.util.Calendar;
 import org.junit.Test;
 
 public class ScanTimeCalculatorTest {
-  static final int DEFAULT_YEAR = 1990;
-  static final int DECEMBER = 11;
-  static final int ELEVENTH = 11;
 
   private static final TimeOfTheDay EIGHT_AM = new TimeOfTheDay(8, 0);
   private static final TimeOfTheDay TWO_PM = new TimeOfTheDay(14, 0);
@@ -117,17 +117,5 @@ public class ScanTimeCalculatorTest {
         .isSleepTime(calendar, EIGHT_AM, TWO_PM);
 
     assertTrue(isSleepTime);
-  }
-
-  @NonNull
-  static Calendar getCalendar(int i) {
-    final Calendar time = Calendar.getInstance();
-    time.set(Calendar.YEAR, DEFAULT_YEAR);
-    time.set(Calendar.MONTH, DECEMBER);
-    time.set(Calendar.DAY_OF_MONTH, ELEVENTH);
-    time.set(Calendar.HOUR_OF_DAY, i);
-    time.set(Calendar.MINUTE, 0);
-    time.set(Calendar.SECOND, 0);
-    return time;
   }
 }

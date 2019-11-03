@@ -68,7 +68,7 @@ public class PeriodicScanExecutorService extends IntentService {
       return;
     }
 
-    final NotificationManager notificationManager = (NotificationManager) getSystemService(
+    final NotificationManager notificationManager = (NotificationManager) context.getSystemService(
         Context.NOTIFICATION_SERVICE);
 
     if (settingsScanner.isAnySettingEnabled(context)) {
