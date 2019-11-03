@@ -10,43 +10,59 @@ import android.util.Log;
 import com.fourthlap.settingsscanner.notification.ReminderNotificationHandler;
 import com.fourthlap.settingsscanner.scheduler.ScanScheduler;
 import com.fourthlap.settingsscanner.scheduler.ScanTimeCalculator;
-import com.fourthlap.settingsscanner.setting.SettingsConfig;
+import com.fourthlap.settingsscanner.setting.SettingsConfiguration;
 import com.fourthlap.settingsscanner.setting.SettingsScanner;
 import com.fourthlap.settingsscanner.userpreference.TimeOfTheDay;
-import com.fourthlap.settingsscanner.userpreference.UserPreferencesStore;
+import com.fourthlap.settingsscanner.userpreference.UserPreferences;
 import java.util.Calendar;
 
-public class PeriodicTaskExecutorService extends IntentService {
+public class PeriodicScanExecutorService extends IntentService {
 
   private final ReminderNotificationHandler reminderNotificationHandler;
   private final SettingsScanner settingsScanner;
   private final ScanScheduler scanScheduler;
-  private final UserPreferencesStore userPreferencesStore;
+  private final UserPreferences userPreferences;
 
-  public PeriodicTaskExecutorService() {
-    super("PeriodicTaskExecutorService");
+  public PeriodicScanExecutorService() {
+    super("PeriodicScanExecutorService");
     this.reminderNotificationHandler = new ReminderNotificationHandler();
-    this.userPreferencesStore = new UserPreferencesStore();
-    this.scanScheduler = new ScanScheduler(userPreferencesStore);
-    this.settingsScanner = new SettingsScanner(userPreferencesStore, new SettingsConfig());
+    this.userPreferences = new UserPreferences();
+    this.scanScheduler = new ScanScheduler(userPreferences);
+    this.settingsScanner = new SettingsScanner(userPreferences, new SettingsConfiguration());
+  }
+
+  //Visible for testing
+  PeriodicScanExecutorService(final ReminderNotificationHandler reminderNotificationHandler,
+      final SettingsScanner settingsScanner, final ScanScheduler scanScheduler,
+      final UserPreferences userPreferences) {
+    super("PeriodicScanExecutorService");
+    this.reminderNotificationHandler = reminderNotificationHandler;
+    this.userPreferences = userPreferences;
+    this.scanScheduler = scanScheduler;
+    this.settingsScanner = settingsScanner;
   }
 
   @Override
   protected void onHandleIntent(final Intent intent) {
     final Context context = getApplicationContext();
+    final Calendar currentTime = Calendar.getInstance();
 
-    //Schedule next scan
-    scanScheduler.scheduleNextScan(context);
+    executePeriodicScan(context, currentTime);
+  }
+
+  //Visible for testing
+  void executePeriodicScan(final Context context, final Calendar currentTime) {
+    scanScheduler.scheduleNextScan(context, currentTime);
 
     final SharedPreferences sharedPreferences = PreferenceManager
         .getDefaultSharedPreferences(getApplicationContext());
 
-    final TimeOfTheDay sleepWindowStart = userPreferencesStore
+    final TimeOfTheDay sleepWindowStart = userPreferences
         .getSleepWindowStartTime(sharedPreferences);
-    final TimeOfTheDay sleepWindowEnd = userPreferencesStore
+    final TimeOfTheDay sleepWindowEnd = userPreferences
         .getSleepWindowEndTime(sharedPreferences);
 
-    if (ScanTimeCalculator.isSleepTime(Calendar.getInstance(), sleepWindowStart, sleepWindowEnd)) {
+    if (ScanTimeCalculator.isSleepTime(currentTime, sleepWindowStart, sleepWindowEnd)) {
       Log.i("PeriodicTaskExecutor", "Received a scan request during sleep time, " +
           "ignoring and setting next scan");
       return;

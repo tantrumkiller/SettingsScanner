@@ -50,8 +50,7 @@ public class ScanTimeCalculator {
         sleepWindowStartTime);
 
     final Calendar latestSleepWindowEndTime = getLatestSleepWindowEndTime(lastSleepWindowStartTime,
-        sleepWindowEndTime,
-        isSameDay(sleepWindowStartTime, sleepWindowEndTime));
+        sleepWindowEndTime);
 
     if (currentTime.after(lastSleepWindowStartTime) && currentTime
         .before(latestSleepWindowEndTime)) {
@@ -74,12 +73,12 @@ public class ScanTimeCalculator {
     if (lastSleepTimeStartDate.after(rightNow)) {
       lastSleepTimeStartDate.add(Calendar.DATE, -1);
     }
+
     return lastSleepTimeStartDate;
   }
 
   private static Calendar getLatestSleepWindowEndTime(Calendar lastSleepTimeStartDate,
-      TimeOfTheDay sleepTimeEnd,
-      boolean doesSleepWindowEndsNextDay) {
+      TimeOfTheDay sleepTimeEnd) {
 
     final Calendar latestSleepTimeEndDate = Calendar.getInstance();
     latestSleepTimeEndDate.set(lastSleepTimeStartDate.get(Calendar.YEAR),
@@ -89,19 +88,10 @@ public class ScanTimeCalculator {
         sleepTimeEnd.getMinutes(),
         0);
 
-    if (!doesSleepWindowEndsNextDay) {
+    if (lastSleepTimeStartDate.after(latestSleepTimeEndDate)) {
       latestSleepTimeEndDate.add(Calendar.DATE, 1);
     }
 
     return latestSleepTimeEndDate;
-  }
-
-  private static boolean isSameDay(final TimeOfTheDay earlierTime,
-      final TimeOfTheDay laterTime) {
-    if (earlierTime.getHour() <= laterTime.getHour()) {
-      return true;
-    }
-
-    return false;
   }
 }

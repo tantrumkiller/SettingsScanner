@@ -9,33 +9,33 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import com.fourthlap.settingsscanner.TimerBroadcastReceiver;
-import com.fourthlap.settingsscanner.userpreference.UserPreferencesStore;
+import com.fourthlap.settingsscanner.userpreference.UserPreferences;
 import java.util.Calendar;
 import java.util.Date;
 
 public class ScanScheduler {
 
-  private final UserPreferencesStore userPreferencesStore;
+  private final UserPreferences userPreferences;
 
-  public ScanScheduler(final UserPreferencesStore userPreferencesStore) {
-    this.userPreferencesStore = userPreferencesStore;
+  public ScanScheduler(final UserPreferences userPreferences) {
+    this.userPreferences = userPreferences;
   }
 
-  public void scheduleNextScan(final Context context) {
+  public Calendar scheduleNextScan(final Context context, final Calendar currentTime) {
     final Intent intent = new Intent(context, TimerBroadcastReceiver.class);
 
     final SharedPreferences sharedPreferences = PreferenceManager
         .getDefaultSharedPreferences(context);
 
-    final Date existingTime = userPreferencesStore.getNextScanTime(sharedPreferences);
-    Log.i("ScanScheduler", "Existing scan time in preference store: " + existingTime);
+    final Date existingTime = userPreferences.getNextScanTime(sharedPreferences);
+    Log.i("ScanScheduler", "Scan time in preference store: " + existingTime);
 
     final PendingIntent updatedPendingIntent = PendingIntent
         .getBroadcast(context, TimerBroadcastReceiver.REQUEST_CODE,
             intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-    final Calendar nextScanTime = ScanTimeCalculator.getNextScanTime(Calendar.getInstance(),
-        userPreferencesStore.getFrequencyOfScan(sharedPreferences));
+    final Calendar nextScanTime = ScanTimeCalculator.getNextScanTime(currentTime,
+        userPreferences.getFrequencyOfScan(sharedPreferences));
 
     final AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -47,6 +47,8 @@ public class ScanScheduler {
     }
 
     Log.i("ScanScheduler", "Set next scan time as: " + nextScanTime.getTime());
-    userPreferencesStore.setNextScanTime(sharedPreferences, nextScanTime.getTime());
+    userPreferences.setNextScanTime(sharedPreferences, nextScanTime.getTime());
+
+    return nextScanTime;
   }
 }

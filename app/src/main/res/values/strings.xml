@@ -2,17 +2,22 @@
     <string name="app_name">Settings Scanner</string>
 
     <!-- Actions Required page -->
-    <string name="actions_required_heading">Settings currently enabled</string>
+    <string name="actions_required_heading">Currently Enabled Settings</string>
+    <string name="actions_required_sub_heading">See preferences to know the settings scanned</string>
     <string name="goto_user_preferences">Open Preferences</string>
     <string name="goto_rate_us">Rate us</string>
-    <string name="no_action_required_text">SettingsScanner did not find any enabled settings. Go to preferences to enable more scans.</string>
+    <string name="verify_scan">Go to preferences to see which settings were scanned</string>
+    <string name="no_action_required_text">All the settings are currently disabled.
+        See preferences to know the settings scanned.</string>
+
     <!-- Preferences page-->
     <string name="scanner_settings_heading">Scanner Preferences</string>
-    <string name="scanner_settings_sub_heading">Toggle to allow SettingScanner scan the setting</string>
+    <string name="scanner_settings_sub_heading">Configure settings that you want scanned</string>
     <string name="timer_settings_heading">Timer Preferences</string>
-    <string name="sleep_time_start">Quiet hours start: </string>
-    <string name="sleep_time_end">Quiet hours end: </string>
+    <string name="timer_settings_sub_heading">Configure scan timings</string>
     <string name="scan_frequency">Time between scans: </string>
+    <string name="sleep_time_start">Quiet hours starts: </string>
+    <string name="sleep_time_end">Quiet hours ends : </string>
 
     <!-- Reminder Notification -->
     <string name="reminder_notification_title">Scan Complete</string>
@@ -23,4 +28,12 @@
     <string name="mobile_data_displayable_name">Mobile Data</string>
     <string name="bluetooth_displayable_name">Bluetooth</string>
     <string name="hotspot_displayable_name">Hotspot</string>
+
+    <!-- Frequency number picker-->
+    <string name="frequency_of_scan_dialog_heading">Select time between scans</string>
+    <string name="hours_suffix">hours</string>
+    <string name="click_here_arrow">Click here</string>
+    <string name="cancel">Cancel</string>
+    <string name="set">Set</string>
+
 </resources>

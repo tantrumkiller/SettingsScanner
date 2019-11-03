@@ -42,7 +42,7 @@
         </receiver>
 
         <service
-            android:name="com.fourthlap.settingsscanner.PeriodicTaskExecutorService"
+            android:name="com.fourthlap.settingsscanner.PeriodicScanExecutorService"
             android:exported="false" />
     </application>
 </manifest>

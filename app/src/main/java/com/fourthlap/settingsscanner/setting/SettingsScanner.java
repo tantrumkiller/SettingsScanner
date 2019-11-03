@@ -1,28 +1,35 @@
 package com.fourthlap.settingsscanner.setting;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import com.fourthlap.settingsscanner.userpreference.UserPreferencesStore;
+import android.util.Log;
+import com.fourthlap.settingsscanner.notification.ReminderNotificationHandler;
+import com.fourthlap.settingsscanner.scheduler.ScanScheduler;
+import com.fourthlap.settingsscanner.scheduler.ScanTimeCalculator;
+import com.fourthlap.settingsscanner.userpreference.TimeOfTheDay;
+import com.fourthlap.settingsscanner.userpreference.UserPreferences;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 public class SettingsScanner {
-  private final UserPreferencesStore userPreferencesStore;
-  private final SettingsConfig settingsConfig;
+  private final UserPreferences userPreferences;
+  private final SettingsConfiguration settingsConfiguration;
 
-  public SettingsScanner(final UserPreferencesStore userPreferencesStore,
-      final SettingsConfig settingsConfig) {
-    this.userPreferencesStore = userPreferencesStore;
-    this.settingsConfig = settingsConfig;
+  public SettingsScanner(UserPreferences userPreferences,
+      SettingsConfiguration settingsConfiguration) {
+    this.userPreferences = userPreferences;
+    this.settingsConfiguration = settingsConfiguration;
   }
 
   public List<Setting> getEnabledSettings(final Context context) {
     final List<Setting> enabledSettings = new ArrayList<>();
     for (final Setting setting : getSettingsToBeScanned(context)) {
-      if (settingsConfig.getHandler(setting).isEnabled(context)) {
+      if (settingsConfiguration.getHandler(setting).isEnabled(context)) {
         enabledSettings.add(setting);
       }
     }
@@ -32,7 +39,7 @@ public class SettingsScanner {
 
   public boolean isAnySettingEnabled(final Context context) {
     for (final Setting setting : getSettingsToBeScanned(context)) {
-      if (settingsConfig.getHandler(setting).isEnabled(context)) {
+      if (settingsConfiguration.getHandler(setting).isEnabled(context)) {
         return true;
       }
     }
@@ -43,7 +50,7 @@ public class SettingsScanner {
   private Set<Setting> getSettingsToBeScanned(final Context context) {
     final SharedPreferences sharedPreferences = PreferenceManager
         .getDefaultSharedPreferences(context);
-    return userPreferencesStore
+    return userPreferences
         .getSettingsToBeScanned(sharedPreferences);
   }
 }

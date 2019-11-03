@@ -11,13 +11,14 @@ import java.util.Calendar;
 import org.junit.Test;
 
 public class ScanTimeCalculatorTest {
+  static final int DEFAULT_YEAR = 1990;
+  static final int DECEMBER = 11;
+  static final int ELEVENTH = 11;
 
-  public static final TimeOfTheDay EIGHT_AM = new TimeOfTheDay(8, 0);
-  public static final TimeOfTheDay TWO_PM = new TimeOfTheDay(14, 0);
-  public static final TimeOfTheDay TEN_PM = new TimeOfTheDay(22, 0);
-  public static final int DEFAULT_YEAR = 1990;
-  public static final int DECEMBER = 11;
-  public static final int ELEVENTH = 11;
+  private static final TimeOfTheDay EIGHT_AM = new TimeOfTheDay(8, 0);
+  private static final TimeOfTheDay TWO_PM = new TimeOfTheDay(14, 0);
+  private static final TimeOfTheDay TEN_PM = new TimeOfTheDay(22, 0);
+
 
   @Test
   public void testGetNextScanTime_sameDay() {
@@ -119,7 +120,7 @@ public class ScanTimeCalculatorTest {
   }
 
   @NonNull
-  private Calendar getCalendar(int i) {
+  static Calendar getCalendar(int i) {
     final Calendar time = Calendar.getInstance();
     time.set(Calendar.YEAR, DEFAULT_YEAR);
     time.set(Calendar.MONTH, DECEMBER);

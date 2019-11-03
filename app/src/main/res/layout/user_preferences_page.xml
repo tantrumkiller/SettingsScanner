@@ -138,6 +138,48 @@
               app:layout_constraintRight_toRightOf="parent"
               app:layout_constraintTop_toBottomOf="@+id/toolbar_user_preferences" />
 
+            <TextView
+              android:id="@+id/timer_sub_heading"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="2dp"
+              android:text="@string/timer_settings_sub_heading"
+              android:textAlignment="center"
+              android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+              android:textSize="@dimen/text_size_small"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintRight_toRightOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/preferences_heading" />
+
+            <RelativeLayout
+              android:id="@+id/frequencySelectorRow"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/standard_margin_top"
+              android:orientation="horizontal"
+              app:layout_constraintLeft_toLeftOf="parent"
+              app:layout_constraintRight_toRightOf="parent"
+              app:layout_constraintTop_toBottomOf="@+id/timer_sub_heading">
+
+                <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/scan_frequency"
+                  android:layout_centerVertical="true"
+                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                  android:textSize="@dimen/text_size_large" />
+
+                <Button
+                  android:id="@+id/frequencySelectorButton"
+                  android:layout_alignParentRight="true"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:textAllCaps="false"
+                  android:text="3 hours"/>
+            </RelativeLayout>
+
+            <include layout="@layout/seaprator"/>
+
             <RelativeLayout
               android:id="@+id/sleepHourStartRow"
               android:layout_width="match_parent"
@@ -146,7 +188,7 @@
               android:orientation="horizontal"
               app:layout_constraintLeft_toLeftOf="parent"
               app:layout_constraintRight_toRightOf="parent"
-              app:layout_constraintTop_toBottomOf="@+id/hotspot_toggle_button">
+              app:layout_constraintTop_toBottomOf="@+id/frequencySelectorRow">
 
                 <TextView
                   android:layout_width="wrap_content"
@@ -190,35 +232,6 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="8:00"/>
-            </RelativeLayout>
-
-            <include layout="@layout/seaprator"/>
-
-            <RelativeLayout
-              android:id="@+id/frequencySelectorRow"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/standard_margin_top"
-              android:orientation="horizontal"
-              app:layout_constraintLeft_toLeftOf="parent"
-              app:layout_constraintRight_toRightOf="parent"
-              app:layout_constraintTop_toBottomOf="@+id/sleepHourEndRow">
-
-                <TextView
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="@string/scan_frequency"
-                  android:layout_centerVertical="true"
-                  android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                  android:textSize="@dimen/text_size_large" />
-
-                <Button
-                  android:id="@+id/frequencySelectorButton"
-                  android:layout_alignParentRight="true"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:textAllCaps="false"
-                  android:text="3"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

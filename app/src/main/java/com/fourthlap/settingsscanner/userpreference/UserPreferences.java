@@ -4,25 +4,12 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import com.fourthlap.settingsscanner.setting.Setting;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UserPreferencesStore {
-
-  public static final int MAX_FREQUENCY = 6;
-  public static final int MIN_FREQUENCY = 1;
-  private static final int DEFAULT_FREQUENCY = 3;
-  private static final String SLEEP_WINDOW_START_HOUR_KEY = "SleepWindowStartHour";
-  private static final String SLEEP_WINDOW_START_MIN_KEY = "SleepWindowStartMinutes";
-  private static final String SLEEP_WINDOW_END_HOUR_KEY = "SleepWindowEndHour";
-  private static final String SLEEP_WINDOW_END_MIN_KEY = "SleepWindowEndMinutes";
-  private static final String FREQUENCY_OF_SCAN_KEY = "frequencyOfScan";
-  private static final String NEXT_SCAN_TIME_SET_KEY = "nextScanTime";
-  private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(
-      "E MMM dd HH:mm:ss Z yyy");
+public class UserPreferences {
 
   public Set<Setting> getSettingsToBeScanned(final SharedPreferences sharedPref) {
     final Set<Setting> settingsToBeScanned = new HashSet<>();
@@ -41,7 +28,7 @@ public class UserPreferencesStore {
       final Setting setting,
       boolean isWhitelistedForScan) {
     final SharedPreferences.Editor editor = sharedPref.edit();
-    Log.i("UserPreferencesStore", setting + " isWhitelistedForScan: " + isWhitelistedForScan);
+    Log.i("UserPreferences", setting + " isWhitelistedForScan: " + isWhitelistedForScan);
     editor.putBoolean(setting.name(), isWhitelistedForScan);
     editor.commit();
   }
@@ -50,65 +37,92 @@ public class UserPreferencesStore {
     validateTimeOfTheDay(hour, minutes);
 
     final SharedPreferences.Editor editor = sharedPref.edit();
-    editor.putInt(SLEEP_WINDOW_START_HOUR_KEY, hour);
-    editor.putInt(SLEEP_WINDOW_START_MIN_KEY, minutes);
+    editor.putInt(UserPreferenceConstants.SLEEP_WINDOW_START_HOUR_KEY, hour);
+    editor.putInt(UserPreferenceConstants.SLEEP_WINDOW_START_MIN_KEY, minutes);
     editor.commit();
   }
 
   public TimeOfTheDay getSleepWindowStartTime(final SharedPreferences sharedPref) {
-    int hour = sharedPref.getInt(SLEEP_WINDOW_START_HOUR_KEY, 22);
-    int minutes = sharedPref.getInt(SLEEP_WINDOW_START_MIN_KEY, 0);
+    int hour = sharedPref.getInt(UserPreferenceConstants.SLEEP_WINDOW_START_HOUR_KEY,
+        UserPreferenceConstants.DEFAULT_SLEEP_WINDOW_START.getHour());
+    int minutes = sharedPref
+        .getInt(UserPreferenceConstants.SLEEP_WINDOW_START_MIN_KEY,
+            UserPreferenceConstants.DEFAULT_SLEEP_WINDOW_START.getMinutes());
 
-    return new TimeOfTheDay(hour, minutes);
+    try {
+      return new TimeOfTheDay(hour, minutes);
+    } catch (IllegalArgumentException e) {
+      return UserPreferenceConstants.DEFAULT_SLEEP_WINDOW_START;
+    }
   }
 
   public void setSleepWindowEndTime(final SharedPreferences sharedPref, int hour, int minutes) {
     validateTimeOfTheDay(hour, minutes);
 
     final SharedPreferences.Editor editor = sharedPref.edit();
-    editor.putInt(SLEEP_WINDOW_END_HOUR_KEY, hour);
-    editor.putInt(SLEEP_WINDOW_END_MIN_KEY, minutes);
+    editor.putInt(UserPreferenceConstants.SLEEP_WINDOW_END_HOUR_KEY, hour);
+    editor.putInt(UserPreferenceConstants.SLEEP_WINDOW_END_MIN_KEY, minutes);
     editor.commit();
   }
 
   public TimeOfTheDay getSleepWindowEndTime(final SharedPreferences sharedPref) {
-    int hour = sharedPref.getInt(SLEEP_WINDOW_END_HOUR_KEY, 9);
-    int minutes = sharedPref.getInt(SLEEP_WINDOW_END_MIN_KEY, 0);
+    int hour = sharedPref.getInt(UserPreferenceConstants.SLEEP_WINDOW_END_HOUR_KEY,
+        UserPreferenceConstants.DEFAULT_SLEEP_WINDOW_END.getHour());
+    int minutes = sharedPref
+        .getInt(UserPreferenceConstants.SLEEP_WINDOW_END_MIN_KEY,
+            UserPreferenceConstants.DEFAULT_SLEEP_WINDOW_END.getMinutes());
 
-    return new TimeOfTheDay(hour, minutes);
+    try {
+      return new TimeOfTheDay(hour, minutes);
+    } catch (IllegalArgumentException e) {
+      return UserPreferenceConstants.DEFAULT_SLEEP_WINDOW_END;
+    }
   }
 
   public void setFrequencyOfScan(final SharedPreferences sharedPref, int frequencyOfScan) {
-    if (frequencyOfScan < MIN_FREQUENCY || frequencyOfScan > MAX_FREQUENCY) {
+    if (!isFrequencyOfScanValid(frequencyOfScan)) {
       throw new IllegalArgumentException(
-          "Frequency of can needs to between 0-6, trying to set: " + frequencyOfScan);
+          "Frequency of is out of bounds, trying to set: " + frequencyOfScan);
     }
 
     final SharedPreferences.Editor editor = sharedPref.edit();
-    editor.putInt(FREQUENCY_OF_SCAN_KEY, frequencyOfScan);
+    editor.putInt(UserPreferenceConstants.FREQUENCY_OF_SCAN_KEY, frequencyOfScan);
     editor.commit();
   }
 
+  private boolean isFrequencyOfScanValid(int frequencyOfScan) {
+    return frequencyOfScan >= UserPreferenceConstants.MIN_FREQUENCY
+        || frequencyOfScan <= UserPreferenceConstants.MAX_FREQUENCY;
+  }
+
   public int getFrequencyOfScan(final SharedPreferences sharedPref) {
-    return sharedPref.getInt(FREQUENCY_OF_SCAN_KEY, DEFAULT_FREQUENCY);
+    int frequencyOfScan = sharedPref.getInt(UserPreferenceConstants.FREQUENCY_OF_SCAN_KEY,
+        UserPreferenceConstants.DEFAULT_FREQUENCY);
+
+    if (!isFrequencyOfScanValid(frequencyOfScan)) {
+      return UserPreferenceConstants.DEFAULT_FREQUENCY;
+    }
+
+    return frequencyOfScan;
   }
 
   public void setNextScanTime(final SharedPreferences sharedPref, final Date date) {
     final SharedPreferences.Editor editor = sharedPref.edit();
-    editor.putString(NEXT_SCAN_TIME_SET_KEY, DATE_FORMAT.format(date));
+    editor.putString(UserPreferenceConstants.NEXT_SCAN_TIME_SET_KEY,
+        UserPreferenceConstants.DATE_FORMAT.format(date));
     editor.commit();
   }
 
   public Date getNextScanTime(final SharedPreferences sharedPref) {
-    String dateString = sharedPref.getString(NEXT_SCAN_TIME_SET_KEY, null);
+    String dateString = sharedPref.getString(UserPreferenceConstants.NEXT_SCAN_TIME_SET_KEY, null);
     if (dateString == null) {
       return null;
     }
 
     try {
-      return DATE_FORMAT.parse(dateString);
+      return UserPreferenceConstants.DATE_FORMAT.parse(dateString);
     } catch (ParseException e) {
-      Log.i("UserPreferencesStore", "Failed to load scan time, returning null");
+      Log.i("UserPreferences", "Failed to load scan time, returning null");
       return null;
     }
   }

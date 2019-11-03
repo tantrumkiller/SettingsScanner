@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="actionsRequired">#000000</color>
-    <color name="colorPrimary">#204A6F</color>9E9E9E
+    <color name="colorPrimary">#204A6F</color>
     <color name="colorPrimaryDark">#204A6F</color>
     <color name="colorAccent">#204A6F</color>
     <color name="background">#FFFFFF</color>
-    <color name="actionColor">#FFFFFF</color>
 </resources>

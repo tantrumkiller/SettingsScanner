@@ -19,15 +19,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import com.fourthlap.settingsscanner.notification.ReminderNotificationHandler;
 import com.fourthlap.settingsscanner.scheduler.ScanScheduler;
 import com.fourthlap.settingsscanner.setting.Setting;
-import com.fourthlap.settingsscanner.setting.SettingsConfig;
+import com.fourthlap.settingsscanner.setting.SettingsConfiguration;
 import com.fourthlap.settingsscanner.setting.SettingsScanner;
-import com.fourthlap.settingsscanner.userpreference.UserPreferencesStore;
+import com.fourthlap.settingsscanner.userpreference.UserPreferences;
 import com.fourthlap.settingsscanner.viewelements.ActionRequiredRecyclerViewAdapter;
 import com.fourthlap.settingsscanner.viewelements.GotoPreferenceButton;
+import java.util.Calendar;
 import java.util.List;
 
 public class ActionsRequiredActivity extends AppCompatActivity {
@@ -35,17 +35,17 @@ public class ActionsRequiredActivity extends AppCompatActivity {
   private final SettingsScanner settingsScanner;
   private final ScanScheduler scanScheduler;
   private final ReminderNotificationHandler reminderNotificationHandler;
-  private final SettingsConfig settingsConfig;
-  private final UserPreferencesStore userPreferencesStore;
+  private final SettingsConfiguration settingsConfiguration;
+  private final UserPreferences userPreferences;
   private RecyclerView recyclerView;
   private ActionRequiredRecyclerViewAdapter recycleViewAdapter;
 
   public ActionsRequiredActivity() {
     super();
-    this.userPreferencesStore = new UserPreferencesStore();
-    this.settingsConfig = new SettingsConfig();
-    this.settingsScanner = new SettingsScanner(userPreferencesStore, settingsConfig);
-    this.scanScheduler = new ScanScheduler(userPreferencesStore);
+    this.userPreferences = new UserPreferences();
+    this.settingsConfiguration = new SettingsConfiguration();
+    this.settingsScanner = new SettingsScanner(userPreferences, settingsConfiguration);
+    this.scanScheduler = new ScanScheduler(userPreferences);
     this.reminderNotificationHandler = new ReminderNotificationHandler();
   }
 
@@ -60,10 +60,10 @@ public class ActionsRequiredActivity extends AppCompatActivity {
     setupPullToRefresh();
     setupFloatingButton();
     populateActionsListAndClearNotification();
-    scanScheduler.scheduleNextScan(getApplicationContext());
 
-    Button button = findViewById(R.id.main_goto_preferences_button);
-    button.setOnClickListener(new GotoPreferenceButton());
+    scanScheduler.scheduleNextScan(getApplicationContext(), Calendar.getInstance());
+
+    findViewById(R.id.main_goto_preferences_button).setOnClickListener(new GotoPreferenceButton());
   }
 
   @Override
@@ -102,13 +102,10 @@ public class ActionsRequiredActivity extends AppCompatActivity {
   private void setupRecycleView() {
     this.recyclerView = findViewById(R.id.actions_required_recycler_view);
     this.recycleViewAdapter = new ActionRequiredRecyclerViewAdapter(getApplicationContext(),
-        settingsConfig);
+        settingsConfiguration);
 
-    // use this setting to improve performance if you know that changes
-    // in content do not change the layout size of the RecyclerView
-    recyclerView.setHasFixedSize(true);
+     recyclerView.setHasFixedSize(false);
 
-    // use a linear layout manager
     final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
     recyclerView.setLayoutManager(layoutManager);
 
@@ -129,7 +126,7 @@ public class ActionsRequiredActivity extends AppCompatActivity {
   }
 
   private void setupFloatingButton() {
-    FloatingActionButton fab = findViewById(R.id.floatingActionButton);
+    final FloatingActionButton fab = findViewById(R.id.floatingActionButton);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
@@ -140,8 +137,7 @@ public class ActionsRequiredActivity extends AppCompatActivity {
   }
 
   private void populateActionsListAndClearNotification() {
-    findViewById(R.id.actions_required_heading).setVisibility(View.VISIBLE);
-    findViewById(R.id.actions_required_swipe_refresh).setVisibility(View.VISIBLE);
+    setVisibilityOfActionsRequiredSection(View.VISIBLE);
     findViewById(R.id.no_actions_needed).setVisibility(View.GONE);
 
     final List<Setting> settingsList = settingsScanner.getEnabledSettings(getApplicationContext());
@@ -152,10 +148,15 @@ public class ActionsRequiredActivity extends AppCompatActivity {
       final NotificationManager notificationManager = (NotificationManager) getSystemService(
           Context.NOTIFICATION_SERVICE);
       reminderNotificationHandler.cancelNotification(notificationManager);
-      findViewById(R.id.actions_required_heading).setVisibility(View.GONE);
-      findViewById(R.id.actions_required_swipe_refresh).setVisibility(View.GONE);
+      setVisibilityOfActionsRequiredSection(View.GONE);
       findViewById(R.id.no_actions_needed).setVisibility(View.VISIBLE);
     }
+  }
+
+  private void setVisibilityOfActionsRequiredSection(int visibility) {
+    findViewById(R.id.actions_required_heading).setVisibility(visibility);
+    findViewById(R.id.actions_required_sub_heading).setVisibility(visibility);
+    findViewById(R.id.actions_required_swipe_refresh).setVisibility(visibility);
   }
 
   private void takeUserToRateUs() {

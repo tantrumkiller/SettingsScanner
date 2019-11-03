@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.fourthlap.settingsscanner.R;
 import com.fourthlap.settingsscanner.setting.Setting;
-import com.fourthlap.settingsscanner.setting.SettingsConfig;
+import com.fourthlap.settingsscanner.setting.SettingsConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,13 +20,13 @@ public class ActionRequiredRecyclerViewAdapter extends
 
   private final LayoutInflater layoutInflater;
   private final Drawable arrowImage;
-  private final SettingsConfig settingsConfig;
+  private final SettingsConfiguration settingsConfiguration;
 
   private List<Setting> enabledSettings;
 
-  public ActionRequiredRecyclerViewAdapter(final Context context, final SettingsConfig settingsConfig) {
+  public ActionRequiredRecyclerViewAdapter(final Context context, final SettingsConfiguration settingsConfiguration) {
     this.layoutInflater = LayoutInflater.from(context);
-    this.settingsConfig = settingsConfig;
+    this.settingsConfiguration = settingsConfiguration;
     this.enabledSettings = new ArrayList<>();
     this.arrowImage = context.getResources()
         .getDrawable(R.drawable.ic_keyboard_arrow_right_black_24dp);
@@ -42,28 +42,18 @@ public class ActionRequiredRecyclerViewAdapter extends
   // binds the data to the TextView in each row
   @Override
   public void onBindViewHolder(final ViewHolder holder, int position) {
-    if (isDataEmpty()) {
-      holder.textView.setText(R.string.no_action_required_text);
-      holder.imageView.setImageDrawable(null);
-      return;
-    }
-
-    int actionName = settingsConfig.getDisplayableNameResId((enabledSettings.get(position)));
+    int actionName = settingsConfiguration.getDisplayableNameResId(enabledSettings.get(position));
     holder.textView.setText(actionName);
     holder.imageView.setImageDrawable(arrowImage);
   }
 
   @Override
   public int getItemCount() {
-    return isDataEmpty() ? 1 : enabledSettings.size();
+    return enabledSettings.size() ;
   }
 
   public void setData(final List<Setting> settings) {
     this.enabledSettings = settings;
-  }
-
-  private boolean isDataEmpty() {
-    return enabledSettings == null || enabledSettings.size() == 0;
   }
 
   // stores and recycles views as they are scrolled off screen
@@ -82,12 +72,8 @@ public class ActionRequiredRecyclerViewAdapter extends
 
     @Override
     public void onClick(final View view) {
-      if (isDataEmpty()) {
-        return;
-      }
-
       Log.i("ActionRequiredRecycler", enabledSettings.get(getAdapterPosition()) + " is clicked");
-      settingsConfig.getHandler(enabledSettings.get(getAdapterPosition()))
+      settingsConfiguration.getHandler(enabledSettings.get(getAdapterPosition()))
           .openSettingsMenu(view.getContext());
     }
   }

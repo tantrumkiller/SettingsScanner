@@ -11,22 +11,21 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import com.fourthlap.settingsscanner.setting.Setting;
-import com.fourthlap.settingsscanner.setting.SettingsConfig;
-import com.fourthlap.settingsscanner.userpreference.UserPreferencesStore;
+import com.fourthlap.settingsscanner.setting.SettingsConfiguration;
+import com.fourthlap.settingsscanner.userpreference.UserPreferences;
 import com.fourthlap.settingsscanner.viewelements.FrequencyButton;
 import com.fourthlap.settingsscanner.viewelements.SleepWindowEndButton;
 import com.fourthlap.settingsscanner.viewelements.SleepWindowStartButton;
 import java.util.Set;
 
 public class UserPreferencesActivity extends AppCompatActivity {
-
-  private final UserPreferencesStore userPreferencesStore;
-  private final SettingsConfig settingConfiguration;
+  private final UserPreferences userPreferences;
+  private final SettingsConfiguration settingConfiguration;
 
   public UserPreferencesActivity() {
     super();
-    this.userPreferencesStore = new UserPreferencesStore();
-    this.settingConfiguration = new SettingsConfig();
+    this.userPreferences = new UserPreferences();
+    this.settingConfiguration = new SettingsConfiguration();
   }
 
   @Override
@@ -37,11 +36,9 @@ public class UserPreferencesActivity extends AppCompatActivity {
     setupToolbar();
     populateUserPreferences();
     setupTimerPreferencesButtons();
-    new FrequencyButton((Button) findViewById(R.id.frequencySelectorButton), userPreferencesStore)
-        .setupButton(getApplicationContext());
   }
 
-  private void setupToolbar() {
+    private void setupToolbar() {
     final Toolbar toolbar = findViewById(R.id.toolbar_user_preferences);
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -56,16 +53,15 @@ public class UserPreferencesActivity extends AppCompatActivity {
   }
 
   private void populateUserPreferences() {
-    final SharedPreferences sharedPreferences = PreferenceManager
-        .getDefaultSharedPreferences(getApplicationContext());
+    final SharedPreferences sharedPreferences = getSharedPreferences();
 
-    final Set<Setting> userConfiguration = userPreferencesStore
+    final Set<Setting> settingsToBeScanned = userPreferences
         .getSettingsToBeScanned(sharedPreferences);
 
     for (final Setting setting : Setting.values()) {
       final Switch switchButton = findViewById(settingConfiguration.getPreferenceButtonId(setting));
 
-      if (userConfiguration.contains(setting)) {
+      if (settingsToBeScanned.contains(setting)) {
         switchButton.setChecked(true);
       } else {
         switchButton.setChecked(false);
@@ -73,7 +69,7 @@ public class UserPreferencesActivity extends AppCompatActivity {
 
       switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
         public void onCheckedChanged(final CompoundButton buttonView, boolean isChecked) {
-          userPreferencesStore
+          userPreferences
               .updateSettingsToBeScannedPreferences(sharedPreferences, setting, isChecked);
         }
       });
@@ -81,19 +77,26 @@ public class UserPreferencesActivity extends AppCompatActivity {
   }
 
   private void setupTimerPreferencesButtons() {
-    final SharedPreferences sharedPreferences = PreferenceManager
-        .getDefaultSharedPreferences(getApplicationContext());
+    final SharedPreferences sharedPreferences = getSharedPreferences();
 
     final Button sleepTimeStartButton = findViewById(R.id.sleepHourStartButton);
     sleepTimeStartButton
-        .setOnClickListener(new SleepWindowStartButton(userPreferencesStore, sleepTimeStartButton));
+        .setOnClickListener(new SleepWindowStartButton(userPreferences, sleepTimeStartButton));
     sleepTimeStartButton.setText(
-        userPreferencesStore.getSleepWindowStartTime(sharedPreferences).getDisplayableString());
+        userPreferences.getSleepWindowStartTime(sharedPreferences).getDisplayableString());
 
     final Button sleepEndStartButton = findViewById(R.id.sleepHourEndButton);
     sleepEndStartButton
-        .setOnClickListener(new SleepWindowEndButton(userPreferencesStore, sleepEndStartButton));
+        .setOnClickListener(new SleepWindowEndButton(userPreferences, sleepEndStartButton));
     sleepEndStartButton.setText(
-        userPreferencesStore.getSleepWindowEndTime(sharedPreferences).getDisplayableString());
+        userPreferences.getSleepWindowEndTime(sharedPreferences).getDisplayableString());
+
+    final Button timerFrequencyButton = findViewById(R.id.frequencySelectorButton);
+    new FrequencyButton(timerFrequencyButton, userPreferences).setupButton(getApplicationContext());
+  }
+
+  private SharedPreferences getSharedPreferences() {
+    return PreferenceManager
+        .getDefaultSharedPreferences(getApplicationContext());
   }
 }

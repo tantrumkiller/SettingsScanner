@@ -9,6 +9,6 @@ public class TimerBroadcastReceiver extends BroadcastReceiver {
 
   @Override
   public void onReceive(final Context context, final Intent intent) {
-    context.startService(new Intent(context, PeriodicTaskExecutorService.class));
+    context.startService(new Intent(context, PeriodicScanExecutorService.class));
   }
 }

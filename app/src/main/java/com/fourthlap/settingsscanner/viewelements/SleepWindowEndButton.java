@@ -2,7 +2,6 @@ package com.fourthlap.settingsscanner.viewelements;
 
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -10,33 +9,38 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TimePicker;
 import com.fourthlap.settingsscanner.userpreference.TimeOfTheDay;
-import com.fourthlap.settingsscanner.userpreference.UserPreferencesStore;
+import com.fourthlap.settingsscanner.userpreference.UserPreferences;
 
 public class SleepWindowEndButton implements OnClickListener, OnTimeSetListener {
-  private final UserPreferencesStore userPreferencesStore;
+
+  private final UserPreferences userPreferences;
   private final Button button;
 
-  public SleepWindowEndButton(final UserPreferencesStore userPreferencesStore, Button button){
-    this.userPreferencesStore = userPreferencesStore;
+  public SleepWindowEndButton(final UserPreferences userPreferences, final Button button) {
+    this.userPreferences = userPreferences;
     this.button = button;
   }
 
-  public void onClick(View v) {
-    Context context = v.getContext();
+  @Override
+  public void onClick(final View v) {
     final SharedPreferences sharedPreferences = PreferenceManager
-        .getDefaultSharedPreferences(context);
-    final TimeOfTheDay timeOfTheDay = userPreferencesStore.getSleepWindowEndTime(sharedPreferences);
-    TimePickerDialog tp1 = new TimePickerDialog(v.getContext(), this, timeOfTheDay.getHour(),
+        .getDefaultSharedPreferences(v.getContext());
+
+    final TimeOfTheDay timeOfTheDay = userPreferences.getSleepWindowEndTime(sharedPreferences);
+
+    final TimePickerDialog timePickerDialog = new TimePickerDialog(v.getContext(), this,
+        timeOfTheDay.getHour(),
         timeOfTheDay.getMinutes(), true);
-    tp1.show();
+
+    timePickerDialog.show();
   }
 
-  public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-    Context context = view.getContext();
+  @Override
+  public void onTimeSet(final TimePicker view, int hourOfDay, int minute) {
     final SharedPreferences sharedPreferences = PreferenceManager
-        .getDefaultSharedPreferences(context);
+        .getDefaultSharedPreferences(view.getContext());
 
-    userPreferencesStore.setSleepWindowEndTime(sharedPreferences, hourOfDay, minute);
+    userPreferences.setSleepWindowEndTime(sharedPreferences, hourOfDay, minute);
     button.setText(new TimeOfTheDay(hourOfDay, minute).getDisplayableString());
   }
 }

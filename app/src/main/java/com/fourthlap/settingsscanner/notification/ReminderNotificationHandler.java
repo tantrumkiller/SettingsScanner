@@ -11,8 +11,10 @@ import com.fourthlap.settingsscanner.ActionsRequiredActivity;
 import com.fourthlap.settingsscanner.R;
 
 public class ReminderNotificationHandler {
+
   private static final String NOTIFICATION_CHANNEL_ID = "SettingChecker-1";
   private static final int NOTIFICATION_ID = 1;
+  private static final int REQUEST_CODE = 123;
   private static final String NOTIFICATION_CHANNEL_NAME = "SettingChecker";
 
   public void notifyUser(final Context context, final NotificationManager notificationManager) {
@@ -23,7 +25,7 @@ public class ReminderNotificationHandler {
     notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
         | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-    final PendingIntent intent = PendingIntent.getActivity(context, 0,
+    final PendingIntent intent = PendingIntent.getActivity(context, REQUEST_CODE,
         notificationIntent, 0);
 
     final NotificationCompat.Builder builder = new NotificationCompat.Builder(context,

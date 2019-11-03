@@ -5,10 +5,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SettingsConfig {
+public class SettingsConfiguration {
+
   private final Map<Setting, Config> settingsMap;
 
-  public SettingsConfig() {
+  public SettingsConfiguration() {
     final Map<Setting, Config> settingsMapTemp = new HashMap();
     settingsMapTemp.put(Setting.GPS, new Config(new GPSSetting(), R.id.gps_toggle_button,
         R.string.gps_displayable_name));
@@ -39,7 +40,11 @@ public class SettingsConfig {
     private final int preferenceButtonId;
     private final int displayableNameResId;
 
-    Config(SettingHandler handler, int preferenceButtonId, int displayableNameResId) {
+    private Config(final SettingHandler handler, int preferenceButtonId, int displayableNameResId) {
+      if (handler == null) {
+        throw new IllegalArgumentException("Can't initialize settings config with null handler");
+      }
+
       this.handler = handler;
       this.preferenceButtonId = preferenceButtonId;
       this.displayableNameResId = displayableNameResId;

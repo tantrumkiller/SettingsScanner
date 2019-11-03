@@ -1,6 +1,5 @@
 package com.fourthlap.settingsscanner.setting;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -26,9 +25,7 @@ public class MobileDataSetting implements SettingHandler {
   }
 
   public void openSettingsMenu(Context context) {
-    final Intent intent = new Intent();
-    intent.setComponent(new ComponentName("com.android.settings",
-        "com.android.settings.Settings$DataUsageSummaryActivity"));
+    final Intent intent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     context.startActivity(intent);
   }

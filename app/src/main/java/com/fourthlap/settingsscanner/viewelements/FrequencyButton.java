@@ -2,33 +2,38 @@ package com.fourthlap.settingsscanner.viewelements;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import com.fourthlap.settingsscanner.R;
-import com.fourthlap.settingsscanner.UserPreferencesActivity;
-import com.fourthlap.settingsscanner.userpreference.UserPreferencesStore;
+import com.fourthlap.settingsscanner.userpreference.UserPreferenceConstants;
+import com.fourthlap.settingsscanner.userpreference.UserPreferences;
 
-public class FrequencyButton implements OnClickListener, NumberPicker.OnValueChangeListener {
+public class FrequencyButton {
 
-  private final Button b;
-  private final UserPreferencesStore userPreferencesStore;
+  private String hours_suffix = "hours";
 
-  public FrequencyButton(Button b, UserPreferencesStore userPreferencesStore) {
-    this.b = b;
-    this.userPreferencesStore = userPreferencesStore;
+  private final Button frequencyOfScanButton;
+  private final UserPreferences userPreferences;
+
+  public FrequencyButton(final Button frequencyOfScanButton,
+      final UserPreferences userPreferences) {
+    this.frequencyOfScanButton = frequencyOfScanButton;
+    this.userPreferences = userPreferences;
   }
 
-  public void setupButton(Context context) {
-    String frequency = String.valueOf(userPreferencesStore
+  public void setupButton(final Context context) {
+    hours_suffix = context.getResources().getString(R.string.hours_suffix);
+    final String frequency = String.valueOf(userPreferences
         .getFrequencyOfScan(PreferenceManager.getDefaultSharedPreferences(context)));
-    b.setText(frequency + " hours");
-    b.setOnClickListener(new OnClickListener() {
+
+    frequencyOfScanButton.setText(getFormattedFrequencyOfScan(frequency));
+
+    frequencyOfScanButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
         show(v.getContext());
@@ -36,53 +41,48 @@ public class FrequencyButton implements OnClickListener, NumberPicker.OnValueCha
     });
   }
 
-  @Override
-  public void onClick(View v) {
-    final Context context = v.getContext();
-    context.startActivity(new Intent(context, UserPreferencesActivity.class));
-  }
+  private void show(final Context context) {
 
-  @Override
-  public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-    Log.d("FrequencyButton", "onValueChange: ");
-  }
+    final Dialog numberPickerDialog = new Dialog(context);
+    numberPickerDialog
+        .setTitle(context.getResources().getString(R.string.frequency_of_scan_dialog_heading));
+    numberPickerDialog.setContentView(R.layout.number_picker_widget);
 
-  private void show(Context context) {
+    final Button setButton = numberPickerDialog.findViewById(R.id.frequency_selector_set_button);
+    final Button cancelButton = numberPickerDialog.findViewById(R.id.frequency_selector_cancel_button);
 
-    final Dialog d = new Dialog(context);
-    d.setTitle("NumberPicker");
-    d.setContentView(R.layout.number_picker_widget);
-    Button b1 = d.findViewById(R.id.button1);
-    Button b2 = d.findViewById(R.id.button2);
-
-    final NumberPicker np = d.findViewById(R.id.numberPicker1);
-    np.setMaxValue(UserPreferencesStore.MAX_FREQUENCY);
-    np.setMinValue(UserPreferencesStore.MIN_FREQUENCY);
-    np.setValue(userPreferencesStore
+    final NumberPicker numberPicker = numberPickerDialog.findViewById(R.id.frequency_selector);
+    numberPicker.setMaxValue(UserPreferenceConstants.MAX_FREQUENCY);
+    numberPicker.setMinValue(UserPreferenceConstants.MIN_FREQUENCY);
+    numberPicker.setValue(userPreferences
         .getFrequencyOfScan(PreferenceManager.getDefaultSharedPreferences(context)));
-    np.setWrapSelectorWheel(false);
-    np.setOnValueChangedListener(this);
+    numberPicker.setWrapSelectorWheel(false);
 
-    b1.setOnClickListener(new OnClickListener() {
+    setButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        b.setText(String.valueOf(np.getValue()) + " hours");
-
         final SharedPreferences sharedPreferences = PreferenceManager
             .getDefaultSharedPreferences(v.getContext());
+        userPreferences.setFrequencyOfScan(sharedPreferences, numberPicker.getValue());
 
-        userPreferencesStore.setFrequencyOfScan(sharedPreferences, np.getValue());
-        d.dismiss();
+        frequencyOfScanButton
+            .setText(getFormattedFrequencyOfScan(String.valueOf(numberPicker.getValue())));
+        numberPickerDialog.dismiss();
       }
     });
 
-    b2.setOnClickListener(new OnClickListener() {
+    cancelButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        d.dismiss();
+        numberPickerDialog.dismiss();
       }
     });
 
-    d.show();
+    numberPickerDialog.show();
+  }
+
+  @NonNull
+  private String getFormattedFrequencyOfScan(final String frequency) {
+    return frequency + " " + hours_suffix;
   }
 }
