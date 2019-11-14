@@ -7,23 +7,27 @@ SettingsWatcher solves this problem by scanning your mobile's settings periodica
 ### 1. Whitelist setting you want scanned
 Use simple toggle buttons to enable/disable settings that you want SettingsScanner to scan.
 
+<img src="https://github.com/tantrumkiller/SettingsWatcher/blob/master/userPreferencesScreen.png" width="300" />
+
 ### 2. Configure scan timings
 
 Configure how frequently you want Scanner to run.
 Configure your sleep time so that scanner doesn't disturbs your sleep.
 
 ### 3. Get reminders
+<img src="https://github.com/tantrumkiller/SettingsWatcher/blob/master/notification.png" width="300" />
 
 According to scheduled time, scanner will run and notifies you if any of the whitelisted settings are enabled.
 If you don’t want to disable a setting yet, just dismiss the notification. Settings watcher will notify you again during the next scan.
 
 ### 4. Disable Settings
 
+<img src="https://github.com/tantrumkiller/SettingsWatcher/blob/master/actionsScreen.png" width="300" />
 
 Click on the setting to go the settings menu to disable setting.
 
 ### 5. Enjoy increased privacy and safety
-
+<img src="https://github.com/tantrumkiller/SettingsWatcher/blob/master/allCaughtUpScreen.png" width="300" />
 
 ## Settings Supported
 * Location
