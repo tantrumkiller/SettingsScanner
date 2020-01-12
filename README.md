@@ -1,4 +1,4 @@
-# SettingsWatcher
+# SettingsScanner
 ### Get the app on [play store](https://play.google.com/store/apps/details?id=com.fourthlap.settingsscanner)
 
 We need some mobile phone settings enabled only for short periods of time. Often we forget to turn them off after use.
