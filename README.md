@@ -1,4 +1,6 @@
 # SettingsWatcher
+### Get the app on [play store](https://play.google.com/store/apps/details?id=com.fourthlap.settingsscanner)
+
 We need some mobile phone settings enabled only for short periods of time. Often we forget to turn them off after use.
 Consider an example of your phone's location setting. You don't need it enabled all day. You need it only in certain scenarios, like when you are driving or booking a cab. Such settings if kept enabled creates privacy and security concerns.
 
